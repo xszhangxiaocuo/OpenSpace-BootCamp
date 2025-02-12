@@ -50,7 +50,7 @@ contract Counter {
 
 等待合约部署完成后就可以在Remix的控制台中看到交易信息。
 
-![image.png](%E9%83%A8%E7%BD%B2%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%90%88%E7%BA%A6%2019832b04c9d180b2beecc384dd5c4505/image%206.png)
+![image-20250212181559399](https://minio.drivefly.cn:443/image-hoshino/blog/2025/02/12/image-20250212181559399.png)
 
 复制交易信息中的`transaction hash` ，在**Sepolia**的区块链浏览器中查询交易hash就能找到刚刚部署的合约信息（[https://sepolia.etherscan.io/tx/0x7baea1a6d324c1b96c871bff86ff63ec911b850b46d8e27c21e38b1686c11ca7](https://sepolia.etherscan.io/tx/0x7baea1a6d324c1b96c871bff86ff63ec911b850b46d8e27c21e38b1686c11ca7)）。
 
