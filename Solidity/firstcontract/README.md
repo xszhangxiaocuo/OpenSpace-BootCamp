@@ -1,14 +1,14 @@
 # 部署第一个合约
 
-# 钱包转账
+## 钱包转账
 
  
 
 ![image.png](https://minio.drivefly.cn:443/image-hoshino/blog/2025/02/12/image.png)
 
-![image.png](https://minio.drivefly.cn:443/image-hoshino/blog/2025/02/12/image 1.png)
+![image-20250212181221778](https://minio.drivefly.cn:443/image-hoshino/blog/2025/02/12/image-20250212181221778.png)
 
-# 部署第一个合约
+## 部署第一个合约
 
 创建一个 `counter.sol` 文件，写入 `Solidity` 代码，如下：
 
