@@ -47,11 +47,11 @@
 	},
 	"sources": {
 		"Bank/sender.sol": {
-			"keccak256": "0x72f661eeb2741a0e151a1b46550f4adae7401efec1368683415bc7b2c9ceed89",
+			"keccak256": "0x9c491081e4f138a66b8c4107a12257ef2c927342d087e9d9773c721f5e74d618",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://5bf6cc537ff7ce5629e5fb5d4e41a3cafa021e8a588d8202b3908f7a27cc091c",
-				"dweb:/ipfs/Qma8ARyj3Wzp6154CANgqBhhCEL3ivVgexq1FW4cdjFGg4"
+				"bzz-raw://021214e3e53044c05a3f4d3da594f3e8f347efd199cb8e2c3150939c40c27df7",
+				"dweb:/ipfs/QmeZZKGgkoJAg74qnVuSKvgh9J7QXEmqb1tzBfsDTpwyZk"
 			]
 		}
 	},
