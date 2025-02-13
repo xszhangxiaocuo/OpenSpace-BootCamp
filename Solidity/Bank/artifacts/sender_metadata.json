@@ -1,0 +1,59 @@
+{
+	"compiler": {
+		"version": "0.8.26+commit.8a97fa7a"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "dest",
+						"type": "address"
+					}
+				],
+				"name": "send",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Bank/sender.sol": "sender"
+		},
+		"evmVersion": "cancun",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Bank/sender.sol": {
+			"keccak256": "0x72f661eeb2741a0e151a1b46550f4adae7401efec1368683415bc7b2c9ceed89",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://5bf6cc537ff7ce5629e5fb5d4e41a3cafa021e8a588d8202b3908f7a27cc091c",
+				"dweb:/ipfs/Qma8ARyj3Wzp6154CANgqBhhCEL3ivVgexq1FW4cdjFGg4"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,21 @@
+{
+  "name": "sender",
+  "address": "0xf221eebe2990d66b591984b959e1839bec54986b",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "dest",
+          "type": "address"
+        }
+      ],
+      "name": "send",
+      "outputs": [],
+      "stateMutability": "payable",
+      "type": "function"
+    }
+  ],
+  "filePath": " - connect to localhost - /Bank/sender.sol",
+  "pinnedAt": 1739445298928
+}
