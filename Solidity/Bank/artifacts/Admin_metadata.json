@@ -13,20 +13,19 @@
 			{
 				"inputs": [
 					{
-						"internalType": "address",
-						"name": "",
+						"internalType": "contract IBank",
+						"name": "bank",
 						"type": "address"
-					}
-				],
-				"name": "balanceMap",
-				"outputs": [
+					},
 					{
 						"internalType": "uint256",
-						"name": "",
+						"name": "amount",
 						"type": "uint256"
 					}
 				],
-				"stateMutability": "view",
+				"name": "adminWithdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -44,32 +43,6 @@
 			},
 			{
 				"inputs": [],
-				"name": "getContractBalance",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "getRank",
-				"outputs": [
-					{
-						"internalType": "address[3]",
-						"name": "",
-						"type": "address[3]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -80,42 +53,6 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "rank",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "withdraw",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"stateMutability": "payable",
-				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -131,7 +68,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Bank/bank.sol": "Bank"
+			"Bank/BigBank.sol": "Admin"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -145,6 +82,14 @@
 		"remappings": []
 	},
 	"sources": {
+		"Bank/BigBank.sol": {
+			"keccak256": "0x783ad5b71de618c0d557d2c1d288a132903a28e667a247d8de23db1182135cb1",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://e1a8ff5c80ee061cb842a2df4e178b09a4e021df906cb07ec0575a3522e8a1de",
+				"dweb:/ipfs/QmcHsFxuEArFudupHLdZdq3EKFBE1UAidfpRi7te2W15He"
+			]
+		},
 		"Bank/IBank.sol": {
 			"keccak256": "0x6e960e553c6de37284506353b24b3c2def7eee4617a1b94add2f53d102bfb135",
 			"license": "MIT",
@@ -154,11 +99,11 @@
 			]
 		},
 		"Bank/bank.sol": {
-			"keccak256": "0x81cc3a6b5f8a1c3b23fcf4615fbe7bcd22ab2dae457638860362e514c14d9584",
+			"keccak256": "0x3c6e8d30f2986dd2853d420bd10d7f743a8263808af6ec4c5957352724962ee2",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://bb30a09f34e809cf83fddc96244615e5597630e65593d660658ef281ae00517f",
-				"dweb:/ipfs/Qmc9Xnjy9XtiGj6rcDbgMP2w834J14zE7MccQfWtWPWjaj"
+				"bzz-raw://6bd7f912ed4b3313d828b3c3bc05fcc4b70b1a70781898a5c70acf450c8d0925",
+				"dweb:/ipfs/QmUfekwK64frnqzeQayN8M5rcDT2rhU7YecZ6Egk3XJL5c"
 			]
 		}
 	},

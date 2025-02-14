@@ -10,8 +10,10 @@ pragma solidity ^0.8.0;
 用数组记录存款金额的前 3 名用户
 */
 
+import "Bank/IBank.sol";
+
 //0xDc03C6B15cF5c4012CAaA586ee5f9bd6961B024a
-contract Bank {
+contract Bank is IBank {
     // 部署合约的账户才能提现
     address public owner;
     mapping(address => uint256) public balanceMap;
@@ -22,7 +24,7 @@ contract Bank {
     }
 
     // 接收eth时更新rank
-    receive() external payable {
+    receive() external payable virtual {
         balanceMap[msg.sender] += msg.value;
         if (balanceMap[msg.sender] > balanceMap[rank[2]]) {
             updateRank();
@@ -33,7 +35,8 @@ contract Bank {
         require(msg.sender == owner, unicode"账户无提现权限");
         require(address(this).balance >= amount, unicode"合约账户余额不足");
 
-        payable(owner).transfer(amount);
+        (bool success,)= payable(owner).call{value: amount}("");
+        require(success,"withdraw failed");
     }
 
     function getRank() external view returns (address[3] memory) {
@@ -49,9 +52,13 @@ contract Bank {
     }
 
     function updateRank() internal {
-        uint256 balance = balanceMap[msg.sender];
+        address addr = msg.sender;
+        uint256 balance = balanceMap[addr];
         for (uint8 i = 0; i < 3; i++) {
             if (balance >= balanceMap[rank[i]]) {
+                if (rank[i] == addr) {
+                    break;
+                }
                 for (uint8 j = 2; j > i; j--) {
                     rank[j] = rank[j - 1];
                 }

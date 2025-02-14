@@ -1,0 +1,443 @@
+{
+	"id": "574f0059faa71b50be2706404b346ae1",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.26",
+	"solcLongVersion": "0.8.26+commit.8a97fa7a",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"Bank/IBank.sol": {
+				"content": "// SPDX-License-Identifier: MIT\npragma solidity ^0.8.0;\n\ninterface IBank {\n    function withdraw(uint256 amount) external;\n    function getRank() external view returns (address[3] memory);\n    function getBalance() external view returns (uint256);\n    function getContractBalance() external view returns (uint256);\n}"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			},
+			"remappings": []
+		}
+	},
+	"output": {
+		"contracts": {
+			"Bank/IBank.sol": {
+				"IBank": {
+					"abi": [
+						{
+							"inputs": [],
+							"name": "getBalance",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "getContractBalance",
+							"outputs": [
+								{
+									"internalType": "uint256",
+									"name": "",
+									"type": "uint256"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [],
+							"name": "getRank",
+							"outputs": [
+								{
+									"internalType": "address[3]",
+									"name": "",
+									"type": "address[3]"
+								}
+							],
+							"stateMutability": "view",
+							"type": "function"
+						},
+						{
+							"inputs": [
+								{
+									"internalType": "uint256",
+									"name": "amount",
+									"type": "uint256"
+								}
+							],
+							"name": "withdraw",
+							"outputs": [],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"functionDebugData": {},
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"getBalance()": "12065fe0",
+							"getContractBalance()": "6f9fb98a",
+							"getRank()": "d303e7b2",
+							"withdraw(uint256)": "2e1a7d4d"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.26+commit.8a97fa7a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"getBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getContractBalance\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getRank\",\"outputs\":[{\"internalType\":\"address[3]\",\"name\":\"\",\"type\":\"address[3]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"withdraw\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"Bank/IBank.sol\":\"IBank\"},\"evmVersion\":\"cancun\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"Bank/IBank.sol\":{\"keccak256\":\"0x6e960e553c6de37284506353b24b3c2def7eee4617a1b94add2f53d102bfb135\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://f1c77c66033898b41abe96f00048cf58cd940fb3919c3664a81a7faa3fa30bc3\",\"dweb:/ipfs/QmUUXxKvm8C4Nx43Cd7dxsx8RH7WmNQ9hLjPQ5zKzK3ivN\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"sources": {
+			"Bank/IBank.sol": {
+				"ast": {
+					"absolutePath": "Bank/IBank.sol",
+					"exportedSymbols": {
+						"IBank": [
+							24
+						]
+					},
+					"id": 25,
+					"license": "MIT",
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"^",
+								"0.8",
+								".0"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "32:23:0"
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"canonicalName": "IBank",
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 24,
+							"linearizedBaseContracts": [
+								24
+							],
+							"name": "IBank",
+							"nameLocation": "67:5:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "2e1a7d4d",
+									"id": 6,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "withdraw",
+									"nameLocation": "88:8:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 4,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 3,
+												"mutability": "mutable",
+												"name": "amount",
+												"nameLocation": "105:6:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 6,
+												"src": "97:14:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 2,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "97:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "96:16:0"
+									},
+									"returnParameters": {
+										"id": 5,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "121:0:0"
+									},
+									"scope": 24,
+									"src": "79:43:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "d303e7b2",
+									"id": 13,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getRank",
+									"nameLocation": "136:7:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 7,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "143:2:0"
+									},
+									"returnParameters": {
+										"id": 12,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 11,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 13,
+												"src": "169:17:0",
+												"stateVariable": false,
+												"storageLocation": "memory",
+												"typeDescriptions": {
+													"typeIdentifier": "t_array$_t_address_$3_memory_ptr",
+													"typeString": "address[3]"
+												},
+												"typeName": {
+													"baseType": {
+														"id": 8,
+														"name": "address",
+														"nodeType": "ElementaryTypeName",
+														"src": "169:7:0",
+														"stateMutability": "nonpayable",
+														"typeDescriptions": {
+															"typeIdentifier": "t_address",
+															"typeString": "address"
+														}
+													},
+													"id": 10,
+													"length": {
+														"hexValue": "33",
+														"id": 9,
+														"isConstant": false,
+														"isLValue": false,
+														"isPure": true,
+														"kind": "number",
+														"lValueRequested": false,
+														"nodeType": "Literal",
+														"src": "177:1:0",
+														"typeDescriptions": {
+															"typeIdentifier": "t_rational_3_by_1",
+															"typeString": "int_const 3"
+														},
+														"value": "3"
+													},
+													"nodeType": "ArrayTypeName",
+													"src": "169:10:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_array$_t_address_$3_storage_ptr",
+														"typeString": "address[3]"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "168:19:0"
+									},
+									"scope": 24,
+									"src": "127:61:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "12065fe0",
+									"id": 18,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getBalance",
+									"nameLocation": "202:10:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 14,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "212:2:0"
+									},
+									"returnParameters": {
+										"id": 17,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 16,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 18,
+												"src": "238:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 15,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "238:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "237:9:0"
+									},
+									"scope": 24,
+									"src": "193:54:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								},
+								{
+									"functionSelector": "6f9fb98a",
+									"id": 23,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "getContractBalance",
+									"nameLocation": "261:18:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 19,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "279:2:0"
+									},
+									"returnParameters": {
+										"id": 22,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 21,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 23,
+												"src": "305:7:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 20,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "305:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "304:9:0"
+									},
+									"scope": 24,
+									"src": "252:62:0",
+									"stateMutability": "view",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 25,
+							"src": "57:259:0",
+							"usedErrors": [],
+							"usedEvents": []
+						}
+					],
+					"src": "32:284:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}

@@ -7,30 +7,6 @@
 		"abi": [
 			{
 				"inputs": [],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"name": "balanceMap",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
 				"name": "getBalance",
 				"outputs": [
 					{
@@ -69,38 +45,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "owner",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"name": "rank",
-				"outputs": [
-					{
-						"internalType": "address",
-						"name": "",
-						"type": "address"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -112,10 +56,6 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
-			},
-			{
-				"stateMutability": "payable",
-				"type": "receive"
 			}
 		],
 		"devdoc": {
@@ -131,7 +71,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Bank/bank.sol": "Bank"
+			"Bank/IBank.sol": "IBank"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -151,14 +91,6 @@
 			"urls": [
 				"bzz-raw://f1c77c66033898b41abe96f00048cf58cd940fb3919c3664a81a7faa3fa30bc3",
 				"dweb:/ipfs/QmUUXxKvm8C4Nx43Cd7dxsx8RH7WmNQ9hLjPQ5zKzK3ivN"
-			]
-		},
-		"Bank/bank.sol": {
-			"keccak256": "0x81cc3a6b5f8a1c3b23fcf4615fbe7bcd22ab2dae457638860362e514c14d9584",
-			"license": "MIT",
-			"urls": [
-				"bzz-raw://bb30a09f34e809cf83fddc96244615e5597630e65593d660658ef281ae00517f",
-				"dweb:/ipfs/Qmc9Xnjy9XtiGj6rcDbgMP2w834J14zE7MccQfWtWPWjaj"
 			]
 		}
 	},
