@@ -1,0 +1,16 @@
+{
+    "title": "集训营学员 - xszxc",
+    "description": "OpenSpace - 华语 Web3 黄埔军校",
+    "image": "ipfs://bafkreifyufasib4vpw64u4cgc2f5p2qaighs2llcysnwd7uzbpqaz5azd4",
+    "attributes": [
+        {
+            "trait_type": "学号",
+            "value": "02002"
+        },
+        {
+            "trait_type": "昵称",
+            "value": "xszxc"
+        }
+    ],
+    "version": "2"
+}

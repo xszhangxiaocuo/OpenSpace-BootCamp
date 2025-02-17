@@ -131,13 +131,14 @@ contract BaseERC20 {
     function transferWithCallback(
         address _to,
         uint256 _value,
-        bytes memory _data
+        bytes calldata _data
     )
         public
         noneZeroAdress(_to)
         enoughBalance(msg.sender, _value)
         returns (bool)
     {
+        require(msg.sender!=_to,"ERC20: can not transfer to yourself");
         balances[msg.sender] -= _value;
         balances[_to] += _value;
         // 调用目标地址的 tokensReceived() 方法
