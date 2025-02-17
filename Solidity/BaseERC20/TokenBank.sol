@@ -9,32 +9,44 @@ deposit() : 需要记录每个地址的存入数量；
 withdraw（）: 用户可以提取自己的之前存入的 token。
 */
 
-import "./BaseERC20.sol";
+import "./IBaseERC20.sol";
 
 contract TokenBank {
     address public tokens;
-    mapping(address => uint) public balances;
+    mapping(address => uint256) public balances;
 
     event Deposited(address indexed user, uint256 amount);
     event Withdrawn(address indexed user, uint256 amount);
 
     constructor(address _token) {
-         tokens = _token;
-     }
+        tokens = _token;
+    }
 
-    function deposit(uint256 amount) public  {
-        require(amount > 0, "Amount should be greater than 0");
-        (bool success,) = tokens.call(abi.encodeCall(BaseERC20(tokens).transferFrom,(msg.sender,address(this),amount)));
-        require(success,"deposit failed");
+    modifier enoughBalance(address _addr, uint256 _amount) {
+        require(
+            balances[_addr] >= _amount,
+            "TokenBank: Insufficient balance in TokenBank"
+        );
+        _;
+    }
+
+    function deposit(uint256 amount) public {
+        (bool success, ) = tokens.call(
+            abi.encodeCall(
+                IBaseERC20(tokens).transferFrom,
+                (msg.sender, address(this), amount)
+            )
+        );
+        require(success, "TokenBank: deposit failed");
         balances[msg.sender] += amount;
         emit Deposited(msg.sender, amount);
     }
 
-    function withdraw(uint256 amount) public {
-        require(amount > 0, "Withdraw amount must be greater than 0");
-        require(balances[msg.sender] >= amount, "Insufficient balance in TokenBank");
-        (bool success,) = tokens.call(abi.encodeCall(BaseERC20(tokens).transfer,(msg.sender,amount)));
-        require(success,"withdraw failed");
+    function withdraw(uint256 amount) public enoughBalance(msg.sender, amount) {
+        (bool success, ) = tokens.call(
+            abi.encodeCall(IBaseERC20(tokens).transfer, (msg.sender, amount))
+        );
+        require(success, "TokenBank: withdraw failed");
         balances[msg.sender] -= amount;
 
         emit Withdrawn(msg.sender, amount);

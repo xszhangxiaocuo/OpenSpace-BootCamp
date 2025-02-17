@@ -231,6 +231,35 @@
 				],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_value",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_data",
+						"type": "bytes"
+					}
+				],
+				"name": "transferWithCallback",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -261,11 +290,11 @@
 	},
 	"sources": {
 		"BaseERC20/BaseERC20.sol": {
-			"keccak256": "0x4d0b04c779c81c5f0687c5848bc2520810bdd5e299bdad3240736193f8c5d0f8",
+			"keccak256": "0x9a1681bd70cb4bb4dcf0585dffc0662c405b6bb03ad4297fd82d0cdbe9d0a6d6",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3ae35fbef8398822af11a5425f5d96f8557c7f0fbd16a7d7873f9d341d6f7bcd",
-				"dweb:/ipfs/QmTvZLiRKQyKdakDLc8GjsPNLcG5oTtFitngpDum4wmMcd"
+				"bzz-raw://dfb6ee8bdc4add22cb3fc2f7915b96acd56446cdbe37dac9bdeb239fb7e4d75f",
+				"dweb:/ipfs/QmPVt2JRMRGfpQ9CXTzkW47vZVfbTaqCPwVyiiWizqijdN"
 			]
 		}
 	},

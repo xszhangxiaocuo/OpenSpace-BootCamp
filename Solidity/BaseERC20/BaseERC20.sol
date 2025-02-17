@@ -15,16 +15,20 @@ pragma solidity ^0.8.0;
 */
 
 contract BaseERC20 {
-    string public name; 
-    string public symbol; 
+    string public name;
+    string public symbol;
     uint8 public decimals;
-    uint256 public totalSupply; 
+    uint256 public totalSupply;
 
     mapping(address => uint256) private balances;
     mapping(address => mapping(address => uint256)) private allowances;
 
     event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 
     constructor() {
         name = "BaseERC20";
@@ -34,16 +38,46 @@ contract BaseERC20 {
         balances[msg.sender] = totalSupply;
     }
 
+    // 校验非0地址
+    modifier noneZeroAdress(address _addr) {
+        require(_addr != address(0), "ERC20: transfer to zero address");
+        _;
+    }
+
+    // 校验余额
+    modifier enoughBalance(address _addr, uint256 _value) {
+        require(
+            balances[_addr] >= _value,
+            "ERC20: transfer amount exceeds balance"
+        );
+        _;
+    }
+
+    // 校验代取额度
+    modifier enoughAllowances(
+        address _from,
+        address _to,
+        uint256 _value
+    ) {
+        require(
+            allowances[_from][_to] >= _value,
+            "ERC20: transfer amount exceeds allowance"
+        );
+        _;
+    }
+
     // 查询某个地址的余额
     function balanceOf(address _owner) public view returns (uint256) {
         return balances[_owner];
     }
 
     // 转账方法
-    function transfer(address _to, uint256 _value) public returns (bool) {
-        require(balances[msg.sender] >= _value, "ERC20: transfer amount exceeds balance");
-        require(_to != address(0), "ERC20: transfer to zero address");
-
+    function transfer(address _to, uint256 _value)
+        public
+        noneZeroAdress(_to)
+        enoughBalance(msg.sender, _value)
+        returns (bool)
+    {
         balances[msg.sender] -= _value;
         balances[_to] += _value;
 
@@ -52,11 +86,17 @@ contract BaseERC20 {
     }
 
     // 代理转账方法
-    function transferFrom(address _from, address _to, uint256 _value) public returns (bool) {
-        require(balances[_from] >= _value, "ERC20: transfer amount exceeds balance");
-        require(allowances[_from][msg.sender] >= _value, "ERC20: transfer amount exceeds allowance");
-        require(_to != address(0), "ERC20: transfer to zero address");
-
+    function transferFrom(
+        address _from,
+        address _to,
+        uint256 _value
+    )
+        public
+        noneZeroAdress(_to)
+        enoughBalance(_from, _value)
+        enoughAllowances(_from, msg.sender, _value)
+        returns (bool)
+    {
         balances[_from] -= _value;
         balances[_to] += _value;
         allowances[_from][msg.sender] -= _value;
@@ -66,9 +106,11 @@ contract BaseERC20 {
     }
 
     // 授权方法：允许某个地址花费 msg.sender 的代币
-    function approve(address _spender, uint256 _value) public returns (bool) {
-        require(_spender != address(0), "ERC20: approve to zero address");
-
+    function approve(address _spender, uint256 _value)
+        public
+        noneZeroAdress(_spender)
+        returns (bool)
+    {
         allowances[msg.sender][_spender] = _value;
 
         emit Approval(msg.sender, _spender, _value);
@@ -76,7 +118,48 @@ contract BaseERC20 {
     }
 
     // 查询授权额度
-    function allowance(address _owner, address _spender) public view returns (uint256) {
+    function allowance(address _owner, address _spender)
+        public
+        view
+        returns (uint256)
+    {
         return allowances[_owner][_spender];
+    }
+
+    // 扩展 ERC20 合约 ，添加一个有 hook 功能的转账函数，如函数名为：transferWithCallback。
+    // 在转账时，如果目标地址是合约地址的话，调用目标地址的 tokensReceived() 方法。
+    function transferWithCallback(
+        address _to,
+        uint256 _value,
+        bytes memory _data
+    )
+        public
+        noneZeroAdress(_to)
+        enoughBalance(msg.sender, _value)
+        returns (bool)
+    {
+        balances[msg.sender] -= _value;
+        balances[_to] += _value;
+        // 调用目标地址的 tokensReceived() 方法
+        if (_isContract(_to)) {
+            (bool success, ) = _to.call(
+                abi.encodeWithSignature(
+                    "tokensReceived(address,uint256,bytes)",
+                    msg.sender,
+                    _value,
+                    _data
+                )
+            );
+            require(success, "ERC20: call tokensReceived failed!");
+        }
+        return true;
+    }
+
+    function _isContract(address account) internal view returns (bool) {
+        uint256 size;
+        assembly {
+            size := extcodesize(account)
+        }
+        return size > 0;
     }
 }

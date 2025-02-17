@@ -121,6 +121,35 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_addr",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "_data",
+						"type": "bytes"
+					}
+				],
+				"name": "tokensReceived",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
@@ -145,7 +174,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"BaseERC20/TokenBank.sol": "TokenBank"
+			"BaseERC20/TokenBankV2.sol": "TokenBankV2"
 		},
 		"evmVersion": "cancun",
 		"libraries": {},
@@ -173,6 +202,14 @@
 			"urls": [
 				"bzz-raw://cdcd5605d36edd64f3d29854123895cccbecc636b32445d0659947d77f745362",
 				"dweb:/ipfs/QmYWMemiSuiJpFhV3iLNGoRm71a1wquy5WJWC4nor15H52"
+			]
+		},
+		"BaseERC20/TokenBankV2.sol": {
+			"keccak256": "0x3764886bac806db9938c06e8f9f2c59fa6aa234e9f1488fad87a5061b72a1bc3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://f94b9948035b2cb920a3eda73744324373d7d49445727252f5a74ae1f4ad590f",
+				"dweb:/ipfs/QmdpU66PgDMYnkJaPGPU3gEy4mjiZ8SZtYyufADa95g4QM"
 			]
 		}
 	},
