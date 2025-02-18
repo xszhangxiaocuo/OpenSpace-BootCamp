@@ -12,6 +12,8 @@ contract TokenBankV2 is TokenBank {
         uint256 _amount,
         bytes memory _data
     ) public returns (bool) {
+        // 校验调用者是否是指定的ERC20合约
+        require(msg.sender==tokens, "Invalid sender address");
         balances[_addr] += _amount;
         return true;
     }

@@ -60,34 +60,10 @@
 						"internalType": "uint256",
 						"name": "nftId",
 						"type": "uint256"
-					},
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "price",
-						"type": "uint256"
 					}
 				],
 				"name": "NFTSold",
 				"type": "event"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "tokenId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "buyNFT",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
 			},
 			{
 				"inputs": [
@@ -197,19 +173,6 @@
 						"type": "bool"
 					}
 				],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "amount",
-						"type": "uint256"
-					}
-				],
-				"name": "withdraw",
-				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
 			}
@@ -410,11 +373,11 @@
 			]
 		},
 		"BaseERC721/NFTMarket.sol": {
-			"keccak256": "0xd98596671b35b8b4475fdc8b8c9568d7969547c8ada997461e4a6910b20a2b24",
+			"keccak256": "0xc5e8b3ef6e1979bda2fdc53b57ab99c2598b54f9dc46ccc5fa731d240fa79e1c",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ba4a1f7ee5725b797e5cbdbf41d4613f80a3e08edb85c09d5503bc5b18e60714",
-				"dweb:/ipfs/Qmcw4dk7Vnq5aE8H22Ko9DphTMHoxT4AMqdvjR9WiV8Dho"
+				"bzz-raw://7b8cec98fbaa2de1316bad508a198fe284ddebd175bc0bef672dce6a4c307fd7",
+				"dweb:/ipfs/QmXt5geBP1wXsbYTPHcWGTdA6kz52P7tL6AafPns934XhP"
 			]
 		}
 	},

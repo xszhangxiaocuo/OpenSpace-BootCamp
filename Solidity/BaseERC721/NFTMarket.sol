@@ -19,10 +19,9 @@ contract NFTMarket {
     MyERC721 public nft;
     mapping(uint256 => uint256) public nftPrices;  // NFT id => 价格
     mapping(uint256 => address) public nftOwners;  // NFT id => 拥有者地址
-    mapping(address => uint256) private balances;
 
     event NFTListed(address indexed seller, uint256 indexed nftId, uint256 price);
-    event NFTSold(address indexed buyer, uint256 indexed nftId, uint256 price);
+    event NFTSold(address indexed buyer, uint256 indexed nftId);
 
     constructor(address _tokenAddress, address _nftAddress) {
         token = IBaseERC20(_tokenAddress);
@@ -40,35 +39,17 @@ contract NFTMarket {
     }
 
     // 购买NFT
-    function buyNFT(uint256 tokenId, uint256 amount) public {
+    function buyNFT(address addr, uint256 tokenId) internal {
         // 地址为0表示下架
         require(nftOwners[tokenId]!=address(0),"nft no exist");
-        require(balances[msg.sender]>=amount,"blance is not enough");
 
-        address nftOwner = nftOwners[tokenId];
-
-        nft.safeTransferFrom(nftOwner, msg.sender, tokenId);
-
-        uint256 price = nftPrices[tokenId];
-        balances[msg.sender] -= price;
-        balances[nftOwner] += price;
+        nft.safeTransferFrom(nftOwners[tokenId], addr, tokenId);
 
         // 清除上架信息
         nftPrices[tokenId] = 0;
         nftOwners[tokenId] = address(0);
 
-        emit NFTSold(msg.sender, tokenId, amount);
-    }
-
-    // 用户提取代币
-    function withdraw(uint256 amount) public {
-        require(balances[msg.sender] >= amount, "Insufficient balance");
-        balances[msg.sender] -= amount;
-        require(token.transfer(msg.sender, amount), "Transfer failed");
-    }
-
-    function balanceOf(address addr) public view returns (uint256) {
-        return balances[addr];
+        emit NFTSold(msg.sender, tokenId);
     }
 
     function tokensReceived(
@@ -76,15 +57,17 @@ contract NFTMarket {
         uint256 _amount,
         bytes calldata _data
     ) public returns (bool) {
-        balances[_addr] += _amount;
-         // 如果 _data 不为空，则尝试解码为 uint256（NFT 的 Token ID）
-        if (_data.length > 0 && _data[0] != 0x00) {
+            require(msg.sender==address(token),"Invalid sender address");
             uint256 tokenId = abi.decode(_data, (uint256));
-            
             require(tokenId > 0, "Invalid Token ID");
-            buyNFT(tokenId,nftPrices[tokenId]);
-        }
-
+            uint256 _value = nftPrices[tokenId];
+            address _to = nftOwners[tokenId];
+            
+            buyNFT(_addr, tokenId);
+            token.transfer(_to, _value);
+            if (_amount>_value) {
+                token.transfer(_addr, _amount-_value);
+            }
         return true;
     }
 }
