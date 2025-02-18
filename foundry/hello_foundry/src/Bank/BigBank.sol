@@ -13,8 +13,8 @@ BigBank 和 Admin 合约 部署后，把 BigBank 的管理员转移给 Admin 合
 Admin 合约的Owner地址调用 adminWithdraw(IBank bank) 把 BigBank 的资金转移到 Admin 地址。
 */
 
-import "Bank/bank.sol";
-import "Bank/IBank.sol";
+import "./bank.sol";
+import "./IBank.sol";
 
 contract BigBank is Bank {
     modifier onlyEnoughAmount(uint256 amount) {

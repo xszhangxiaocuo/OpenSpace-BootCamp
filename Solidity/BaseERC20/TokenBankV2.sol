@@ -10,7 +10,7 @@ contract TokenBankV2 is TokenBank {
     function tokensReceived(
         address _addr,
         uint256 _amount,
-        bytes memory _data
+        bytes calldata _data
     ) public returns (bool) {
         // 校验调用者是否是指定的ERC20合约
         require(msg.sender==tokens, "Invalid sender address");

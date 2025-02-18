@@ -10,7 +10,7 @@ pragma solidity ^0.8.0;
 用数组记录存款金额的前 3 名用户
 */
 
-import "Bank/IBank.sol";
+import "./IBank.sol";
 
 //0xDc03C6B15cF5c4012CAaA586ee5f9bd6961B024a
 contract Bank is IBank {
