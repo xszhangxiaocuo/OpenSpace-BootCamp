@@ -1,0 +1,16 @@
+{
+    "title": "集训营学员 - hoshino",
+    "description": "OpenSpace - 华语 Web3 黄埔军校",
+    "image": "ipfs://bafybeibenwxky6mtdozf4nfv5ozlw4gqxf33l75gsr2ekcc6sekthzdlty",
+    "attributes": [
+        {
+            "trait_type": "学号",
+            "value": "02002"
+        },
+        {
+            "trait_type": "昵称",
+            "value": "hoshino"
+        }
+    ],
+    "version": "2"
+}
