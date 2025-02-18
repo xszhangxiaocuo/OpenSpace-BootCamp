@@ -17,10 +17,14 @@ import "../BaseERC721/MyERC721.sol";
 contract NFTMarket {
     IBaseERC20 public token;
     MyERC721 public nft;
-    mapping(uint256 => uint256) public nftPrices;  // NFT id => 价格
-    mapping(uint256 => address) public nftOwners;  // NFT id => 拥有者地址
+    mapping(uint256 => uint256) public nftPrices; // NFT id => 价格
+    mapping(uint256 => address) public nftOwners; // NFT id => 拥有者地址
 
-    event NFTListed(address indexed seller, uint256 indexed nftId, uint256 price);
+    event NFTListed(
+        address indexed seller,
+        uint256 indexed nftId,
+        uint256 price
+    );
     event NFTSold(address indexed buyer, uint256 indexed nftId);
 
     constructor(address _tokenAddress, address _nftAddress) {
@@ -28,20 +32,40 @@ contract NFTMarket {
         nft = MyERC721(_nftAddress);
     }
 
-     // 上架NFT，设置价格
-    function list(uint256 nftId, uint256 price) public  {
-        require(nft.ownerOf(nftId) == msg.sender, "You must own the NFT to list it");
+    // 上架NFT，设置价格
+    function list(uint256 tokenId, uint256 price) public {
+        require(
+            nft.ownerOf(tokenId) == msg.sender,
+            "You must own the NFT to list it"
+        );
 
-        nftPrices[nftId] = price;
-        nftOwners[nftId] = msg.sender;
+        nftPrices[tokenId] = price;
+        nftOwners[tokenId] = msg.sender;
 
-        emit NFTListed(msg.sender, nftId, price);
+        emit NFTListed(msg.sender, tokenId, price);
     }
 
-    // 购买NFT
-    function buyNFT(address addr, uint256 tokenId) internal {
+    // 用户直接调用购买nft，需要在ERC20合约中给当前合约approve取钱额度
+    function buyNFT(uint256 tokenId, uint256 amount) public {
+        uint256 prices = nftPrices[tokenId];
+        address oldOwner = nftOwners[tokenId];
+        require(oldOwner != address(0), "nft not exist");
+        require(msg.sender!=oldOwner, "you are owner of this nft");
+        require(amount>=nftPrices[tokenId],"amount is not enough");
+
+        token.transferFrom(msg.sender, address(this), prices);
+        transferNFT(msg.sender, tokenId);
+        token.transferFrom(address(this), oldOwner, prices);
+        if (amount>prices) {
+            token.transfer(msg.sender, amount-prices);
+        }
+        
+    }
+
+    // 交易NFT
+    function transferNFT(address addr, uint256 tokenId) internal {
         // 地址为0表示下架
-        require(nftOwners[tokenId]!=address(0),"nft no exist");
+        require(nftOwners[tokenId] != address(0), "nft not exist");
 
         nft.safeTransferFrom(nftOwners[tokenId], addr, tokenId);
 
@@ -57,17 +81,17 @@ contract NFTMarket {
         uint256 _amount,
         bytes calldata _data
     ) public returns (bool) {
-            require(msg.sender==address(token),"Invalid sender address");
-            uint256 tokenId = abi.decode(_data, (uint256));
-            require(tokenId > 0, "Invalid Token ID");
-            uint256 _value = nftPrices[tokenId];
-            address _to = nftOwners[tokenId];
-            
-            buyNFT(_addr, tokenId);
-            token.transfer(_to, _value);
-            if (_amount>_value) {
-                token.transfer(_addr, _amount-_value);
-            }
+        require(msg.sender == address(token), "Invalid sender address");
+        uint256 tokenId = abi.decode(_data, (uint256));
+        require(tokenId > 0, "Invalid Token ID");
+        uint256 _value = nftPrices[tokenId];
+        address _to = nftOwners[tokenId];
+
+        transferNFT(_addr, tokenId);
+        token.transfer(_to, _value);
+        if (_amount > _value) {
+            token.transfer(_addr, _amount - _value);
+        }
         return true;
     }
 }

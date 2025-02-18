@@ -69,7 +69,25 @@
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "nftId",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "buyNFT",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
 						"type": "uint256"
 					},
 					{
@@ -373,11 +391,11 @@
 			]
 		},
 		"BaseERC721/NFTMarket.sol": {
-			"keccak256": "0xc5e8b3ef6e1979bda2fdc53b57ab99c2598b54f9dc46ccc5fa731d240fa79e1c",
+			"keccak256": "0xb085a60c9941c8fe92905e69adc802534312569be72530538d722399a2312512",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7b8cec98fbaa2de1316bad508a198fe284ddebd175bc0bef672dce6a4c307fd7",
-				"dweb:/ipfs/QmXt5geBP1wXsbYTPHcWGTdA6kz52P7tL6AafPns934XhP"
+				"bzz-raw://c717792bea414c54cfcddc68648c5fe3c774e24062464ba6d6676ce4f7638d83",
+				"dweb:/ipfs/QmVr4rG6qdVWqui16X3MXQnte4v55e6EgY7LgMm61UsDbR"
 			]
 		}
 	},
