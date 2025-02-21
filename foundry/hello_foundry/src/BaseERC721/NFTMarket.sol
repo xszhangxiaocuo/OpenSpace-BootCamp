@@ -65,11 +65,12 @@ contract NFTMarket {
     require(oldOwner != address(0), "nft not exist");
     require(oldOwner != addr, "you are the owner of this nft");
 
-    nft.safeTransferFrom(nftOwners[tokenId], addr, tokenId);
-
-    // 清除上架信息
+    // 代码顺序： 数据校验 -> 数据更新 -> 数据处理
+    // 在开始处理的时候就清除上架信息，防止重入攻击
     nftPrices[tokenId] = 0;
     nftOwners[tokenId] = address(0);
+
+    nft.safeTransferFrom(nftOwners[tokenId], addr, tokenId);
 
     emit NFTSold(msg.sender, tokenId);
   }
