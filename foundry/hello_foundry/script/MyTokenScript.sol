@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 
 import { Script, console } from "forge-std/Script.sol";
-import { MyToken } from "../src/MyToken.sol";
+import { MyToken } from "../src/EIP2612/MyToken.sol";
 
 contract MyTokenScript is Script {
   MyToken public token;
@@ -21,10 +21,10 @@ contract MyTokenScript is Script {
       console.log("Token symbol:", token.symbol());
       console.log("Token total supply:", token.totalSupply());
 
-      address xszxc = makeAddr("xszxc");
-      console.log("xszxc address:", xszxc);
-      token.transfer(xszxc, 1e18);
-      console.log("xszxc balance:", token.balanceOf(xszxc));
+      // address xszxc = makeAddr("xszxc");
+      // console.log("xszxc address:", xszxc);
+      // token.transfer(xszxc, 1e18);
+      // console.log("xszxc balance:", token.balanceOf(xszxc));
     }
     vm.stopBroadcast();
   }
