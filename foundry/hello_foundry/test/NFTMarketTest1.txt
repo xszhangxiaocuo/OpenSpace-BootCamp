@@ -1,0 +1,62 @@
+xszxc@xszxcdeMacBook-Pro-2 hello_foundry % forge test --mc NFTMarketTest1 -vvvv
+[⠊] Compiling...
+[⠘] Compiling 2 files with Solc 0.8.25
+[⠃] Solc 0.8.25 finished in 778.40ms
+Compiler run successful!
+
+Ran 1 test for test/NFTMarketTest1.sol:NFTMarketTest1
+[PASS] testPermitBuyValidSignature() (gas: 214976)
+Traces:
+  [254076] NFTMarketTest1::testPermitBuyValidSignature()
+    ├─ [2852] NFTMarket::getPermitNonce(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [2894] MyToken::nonces(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [5331] NFTMarketSigutils::getTypedDataHash(Permit({ buyer: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, tokenId: 1, value: 100000000000000000000 [1e20], nonce: 0, deadline: 86401 [8.64e4] })) [staticcall]
+    │   └─ ← [Return] 0x9923e9b5b86b5e6ad5ca88dfe5e9a78b4c92cdae40545ec2f39fee2f7749525b
+    ├─ [0] VM::sign("<pk>", 0x9923e9b5b86b5e6ad5ca88dfe5e9a78b4c92cdae40545ec2f39fee2f7749525b) [staticcall]
+    │   └─ ← [Return] 28, 0xaa53f8052ce499caa7fd3d2394be32cc401b0712133049f24446dadf38aecca0, 0x7e7200910541fc99ade5e01150d931db4b2b03f39da2f8f6de377489f681097d
+    ├─ [3000] PRECOMPILES::ecrecover(0x9923e9b5b86b5e6ad5ca88dfe5e9a78b4c92cdae40545ec2f39fee2f7749525b, 28, 77041544338153411045191234396160189823407628145125896894352140890606429719712, 57192843396622274305901049970354067002781264512538021297912716941885161146749) [staticcall]
+    │   └─ ← [Return] 0x000000000000000000000000476c88ed464efd251a8b18eb84785f7c46807873
+    ├─ [0] VM::assertEq(0x476C88ED464EFD251a8b18Eb84785F7C46807873, 0x476C88ED464EFD251a8b18Eb84785F7C46807873) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [5432] tokenSigUtils::getTypedDataHash(Permit({ owner: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, spender: 0xc4FB50B25Cb0db16917dA047689DDB07d49701Fe, value: 100000000000000000000 [1e20], nonce: 0, deadline: 86401 [8.64e4] })) [staticcall]
+    │   └─ ← [Return] 0x6af7c84d8ae01b955bb8a1068fda4b8241c37f4d65f6006c6993bdb3ff203a01
+    ├─ [0] VM::sign("<pk>", 0x6af7c84d8ae01b955bb8a1068fda4b8241c37f4d65f6006c6993bdb3ff203a01) [staticcall]
+    │   └─ ← [Return] 28, 0x34d99f9fd8aef2c3a17dc25b81b2013378f15e79a4849f1bf3b061b204bf23df, 0x7a2aed02fdf7b258741911003ca5cac89b9b373cedc0feb3f2f5b9bc17ea92e2
+    ├─ [0] VM::startPrank(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectEmit(true, true, false, true)
+    │   └─ ← [Return] 
+    ├─ emit NFTSold(buyer: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, nftId: 1)
+    ├─ [178408] NFTMarket::permitBuy(PermitData({ buyer: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, tokenId: 1, amount: 100000000000000000000 [1e20], nonce: 0, deadline: 86401 [8.64e4] }), TokenPermitData({ owner: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, spender: 0xc4FB50B25Cb0db16917dA047689DDB07d49701Fe, amount: 100000000000000000000 [1e20], nonce: 0, deadline: 86401 [8.64e4] }), [Signature({ v: 28, r: 0xaa53f8052ce499caa7fd3d2394be32cc401b0712133049f24446dadf38aecca0, s: 0x7e7200910541fc99ade5e01150d931db4b2b03f39da2f8f6de377489f681097d }), Signature({ v: 28, r: 0x34d99f9fd8aef2c3a17dc25b81b2013378f15e79a4849f1bf3b061b204bf23df, s: 0x7a2aed02fdf7b258741911003ca5cac89b9b373cedc0feb3f2f5b9bc17ea92e2 })])
+    │   ├─ [3000] PRECOMPILES::ecrecover(0x9923e9b5b86b5e6ad5ca88dfe5e9a78b4c92cdae40545ec2f39fee2f7749525b, 28, 77041544338153411045191234396160189823407628145125896894352140890606429719712, 57192843396622274305901049970354067002781264512538021297912716941885161146749) [staticcall]
+    │   │   └─ ← [Return] 0x000000000000000000000000476c88ed464efd251a8b18eb84785f7c46807873
+    │   ├─ [46765] MyERC721::safeTransferFrom(0x472678022927894035D158D8F3ACCE2b91e13d3E, 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, 1)
+    │   │   ├─ emit Transfer(from: 0x472678022927894035D158D8F3ACCE2b91e13d3E, to: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, tokenId: 1)
+    │   │   └─ ← [Stop] 
+    │   ├─ emit NFTSold(buyer: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, nftId: 1)
+    │   ├─ [51574] MyToken::permit(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, NFTMarket: [0xc4FB50B25Cb0db16917dA047689DDB07d49701Fe], 100000000000000000000 [1e20], 86401 [8.64e4], 28, 0x34d99f9fd8aef2c3a17dc25b81b2013378f15e79a4849f1bf3b061b204bf23df, 0x7a2aed02fdf7b258741911003ca5cac89b9b373cedc0feb3f2f5b9bc17ea92e2)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x6af7c84d8ae01b955bb8a1068fda4b8241c37f4d65f6006c6993bdb3ff203a01, 28, 23904775626506845927179489083859850027338371456077798613983712862447696028639, 55258010898429180510070043795611762601549698202376516763382606042640300020450) [staticcall]
+    │   │   │   └─ ← [Return] 0x00000000000000000000000093bdbe2c9f0f5cec59175c51d0a39faee42a4a6e
+    │   │   ├─ emit Approval(owner: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, spender: NFTMarket: [0xc4FB50B25Cb0db16917dA047689DDB07d49701Fe], value: 100000000000000000000 [1e20])
+    │   │   └─ ← [Stop] 
+    │   ├─ [31642] MyToken::transferFrom(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, 0x472678022927894035D158D8F3ACCE2b91e13d3E, 100000000000000000000 [1e20])
+    │   │   ├─ emit Transfer(from: 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, to: 0x472678022927894035D158D8F3ACCE2b91e13d3E, value: 100000000000000000000 [1e20])
+    │   │   └─ ← [Return] true
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [1072] MyERC721::ownerOf(1) [staticcall]
+    │   └─ ← [Return] 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e
+    ├─ [0] VM::assertEq(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e, 0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [896] MyToken::balanceOf(0x93BDBe2c9f0F5cec59175C51D0a39fAee42A4a6e) [staticcall]
+    │   └─ ← [Return] 900000000000000000000 [9e20]
+    ├─ [0] VM::assertEq(900000000000000000000 [9e20], 900000000000000000000 [9e20]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 9.55ms (2.92ms CPU time)
+
+Ran 1 test suite in 676.40s (9.55ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
