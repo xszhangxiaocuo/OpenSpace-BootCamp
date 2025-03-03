@@ -1,0 +1,52 @@
+xszxc@xszxcdeMacBook-Pro-2 hello_foundry % forge test --mc Permit2Test -vvvv
+[⠊] Compiling...
+[⠒] Compiling 1 files with Solc 0.8.25
+[⠑] Solc 0.8.25 finished in 587.51ms
+Compiler run successful!
+
+Ran 1 test for test/Permit2Test.sol:Permit2Test
+[PASS] testPermit2ValidSignature() (gas: 167633)
+Logs:
+  Token Address: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512
+  balance: 10000000000000000000000000000
+
+Traces:
+  [167633] Permit2Test::testPermit2ValidSignature()
+    ├─ [0] VM::startPrank(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266)
+    │   └─ ← [Return] 
+    ├─ [2895] 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512::balanceOf(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266) [staticcall]
+    │   └─ ← [Return] 10000000000000000000000000000 [1e28]
+    ├─ [0] console::log("balance:", 10000000000000000000000000000 [1e28]) [staticcall]
+    │   └─ ← [Stop] 
+    ├─ [25319] 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512::approve(Permit2: [0x000000000022D473030F116dDEE9F6B43aC78BA3], 10000000000000000000000000000 [1e28])
+    │   ├─ emit Approval(owner: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, spender: Permit2: [0x000000000022D473030F116dDEE9F6B43aC78BA3], value: 10000000000000000000000000000 [1e28])
+    │   └─ ← [Return] true
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [6353] permit2SigUtils::getTypedDataHash(PermitTransferFrom({ permitted: TokenPermissions({ token: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, amount: 10000000000000000000 [1e19] }), spender: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, nonce: 0, deadline: 1741016714 [1.741e9] })) [staticcall]
+    │   └─ ← [Return] 0x50b9e8eaa870319bce2c7f8cc3bfb7d38850753d203e6779bcc35372bd7e759c
+    ├─ [0] VM::sign("<pk>", 0x50b9e8eaa870319bce2c7f8cc3bfb7d38850753d203e6779bcc35372bd7e759c) [staticcall]
+    │   └─ ← [Return] 27, 0x62f4a65832e96c59ac8414e1ecc35d7b4627c1033b62211c9619134034a59fb6, 0x68a731f7786551fb06488d85752b7eebcf59f09916311ebdadfda79e93ce1cff
+    ├─ [0] VM::startPrank(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266)
+    │   └─ ← [Return] 
+    ├─ [92873] 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0::depositWithPermit2(0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, 10000000000000000000 [1e19], 0, 1741016714 [1.741e9], 0x62f4a65832e96c59ac8414e1ecc35d7b4627c1033b62211c9619134034a59fb668a731f7786551fb06488d85752b7eebcf59f09916311ebdadfda79e93ce1cff1b)
+    │   ├─ [60160] Permit2::permitTransferFrom(PermitTransferFrom({ permitted: TokenPermissions({ token: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, amount: 10000000000000000000 [1e19] }), nonce: 0, deadline: 1741016714 [1.741e9] }), SignatureTransferDetails({ to: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, requestedAmount: 10000000000000000000 [1e19] }), 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 0x62f4a65832e96c59ac8414e1ecc35d7b4627c1033b62211c9619134034a59fb668a731f7786551fb06488d85752b7eebcf59f09916311ebdadfda79e93ce1cff1b)
+    │   │   ├─ [3000] PRECOMPILES::ecrecover(0x50b9e8eaa870319bce2c7f8cc3bfb7d38850753d203e6779bcc35372bd7e759c, 27, 44758917912696545115941841025958852204831586972355257043337387384614389391286, 47335944569834669825687149096046037541409481748045676280753641669783886634239) [staticcall]
+    │   │   │   └─ ← [Return] 0x000000000000000000000000f39fd6e51aad88f6f4ce6ab8827279cfffb92266
+    │   │   ├─ [29637] 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512::transferFrom(0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, 10000000000000000000 [1e19])
+    │   │   │   ├─ emit Transfer(from: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, to: 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0, value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Return] true
+    │   │   └─ ← [Return] 
+    │   ├─ emit DepositedPermit2(user: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266, tokens: 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512, amounts: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [895] 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512::balanceOf(0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 13.40ms (1.20ms CPU time)
+
+Ran 1 test suite in 1.49s (13.40ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
