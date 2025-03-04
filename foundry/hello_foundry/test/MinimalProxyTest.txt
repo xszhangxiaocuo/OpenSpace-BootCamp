@@ -1,0 +1,194 @@
+xszxc@xszxcdeMacBook-Pro-2 hello_foundry % forge test --mc MinimalProxyTest -vvvv
+[⠊] Compiling...
+[⠒] Compiling 1 files with Solc 0.8.25
+[⠑] Solc 0.8.25 finished in 566.42ms
+Compiler run successful!
+
+Ran 3 tests for test/MinimalProxyTest.sol:MinimalProxyTest
+[PASS] testDeployInscription() (gas: 252553)
+Traces:
+  [252553] MinimalProxyTest::testDeployInscription()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [232280] CloneFactory::deployInscription("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1)
+    │   ├─ [9031] → new <unknown>@0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    │   │   └─ ← [Return] 45 bytes of code
+    │   ├─ [115905] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002])
+    │   │   ├─ [113200] ImpToken::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002]) [delegatecall]
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ emit Deployed(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, symbol: "MyToken", totalSupply: 20000000000000000000 [2e19], perMint: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Return] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    ├─ [1000] CloneFactory::getTokenOwner(0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B) [staticcall]
+    │   └─ ← [Return] SHA-256: [0x0000000000000000000000000000000000000002]
+    ├─ [0] VM::assertEq(SHA-256: [0x0000000000000000000000000000000000000002], SHA-256: [0x0000000000000000000000000000000000000002]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testMintBeyond() (gas: 433521)
+Traces:
+  [433521] MinimalProxyTest::testMintBeyond()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [232280] CloneFactory::deployInscription("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1)
+    │   ├─ [9031] → new <unknown>@0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    │   │   └─ ← [Return] 45 bytes of code
+    │   ├─ [115905] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002])
+    │   │   ├─ [113200] ImpToken::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002]) [delegatecall]
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ emit Deployed(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, symbol: "MyToken", totalSupply: 20000000000000000000 [2e19], perMint: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Return] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    ├─ [0] VM::startPrank(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   └─ ← [Return] 
+    ├─ [103236] CloneFactory::mintInscription{value: 10000000000000000000}(0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B)
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ [3000] ECRecover::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Return] 
+    │   ├─ [47959] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   │   ├─ [47790] ImpToken::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [delegatecall]
+    │   │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: RIPEMD-160: [0x0000000000000000000000000000000000000003], value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ [60] PRECOMPILES::sha256{value: 9000000000000000000}(0x)
+    │   │   └─ ← [Return] 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ emit Minted(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, amount: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Stop] 
+    ├─ [30436] CloneFactory::mintInscription{value: 10000000000000000000}(0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B)
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ [3000] ECRecover::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Return] 
+    │   ├─ [4159] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   │   ├─ [3990] ImpToken::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [delegatecall]
+    │   │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: RIPEMD-160: [0x0000000000000000000000000000000000000003], value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ [60] PRECOMPILES::sha256{value: 9000000000000000000}(0x)
+    │   │   └─ ← [Return] 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ emit Minted(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, amount: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Stop] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  ImpToken: exceeds max supply)
+    │   └─ ← [Return] 
+    ├─ [15892] CloneFactory::mintInscription{value: 10000000000000000000}(0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B)
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ [3000] ECRecover::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Return] 
+    │   ├─ [1485] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   │   ├─ [1299] ImpToken::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [delegatecall]
+    │   │   │   └─ ← [Revert] revert: ImpToken: exceeds max supply
+    │   │   └─ ← [Revert] revert: ImpToken: exceeds max supply
+    │   └─ ← [Revert] revert: ImpToken: exceeds max supply
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [621] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::totalSupply() [staticcall]
+    │   ├─ [455] ImpToken::totalSupply() [delegatecall]
+    │   │   └─ ← [Return] 20000000000000000000 [2e19]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    ├─ [0] VM::assertEq(20000000000000000000 [2e19], 20000000000000000000 [2e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(18000000000000000000 [1.8e19], 18000000000000000000 [1.8e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [537] CloneFactory::owner() [staticcall]
+    │   └─ ← [Return] ECRecover: [0x0000000000000000000000000000000000000001]
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testMintInscription() (gas: 371724)
+Traces:
+  [371724] MinimalProxyTest::testMintInscription()
+    ├─ [0] VM::prank(SHA-256: [0x0000000000000000000000000000000000000002])
+    │   └─ ← [Return] 
+    ├─ [232280] CloneFactory::deployInscription("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1)
+    │   ├─ [9031] → new <unknown>@0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    │   │   └─ ← [Return] 45 bytes of code
+    │   ├─ [115905] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002])
+    │   │   ├─ [113200] ImpToken::initialize("MyToken", 20000000000000000000 [2e19], 10000000000000000000 [1e19], 1, SHA-256: [0x0000000000000000000000000000000000000002]) [delegatecall]
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ emit Deployed(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, symbol: "MyToken", totalSupply: 20000000000000000000 [2e19], perMint: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Return] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B
+    ├─ [0] VM::prank(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   └─ ← [Return] 
+    ├─ [103236] CloneFactory::mintInscription{value: 10000000000000000000}(0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B)
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ [3000] ECRecover::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Return] 
+    │   ├─ [47959] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003])
+    │   │   ├─ [47790] ImpToken::mint(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [delegatecall]
+    │   │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: RIPEMD-160: [0x0000000000000000000000000000000000000003], value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Stop] 
+    │   │   └─ ← [Return] 
+    │   ├─ [60] PRECOMPILES::sha256{value: 9000000000000000000}(0x)
+    │   │   └─ ← [Return] 0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+    │   ├─ [659] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::perMint() [staticcall]
+    │   │   ├─ [493] ImpToken::perMint() [delegatecall]
+    │   │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [635] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::price() [staticcall]
+    │   │   ├─ [469] ImpToken::price() [delegatecall]
+    │   │   │   └─ ← [Return] 1
+    │   │   └─ ← [Return] 1
+    │   ├─ emit Minted(addr: 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B, amount: 10000000000000000000 [1e19], price: 1)
+    │   └─ ← [Stop] 
+    ├─ [1046] 0xfeE3f359c00b1Ef7e9123D21ff056B7BF95e508B::balanceOf(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [staticcall]
+    │   ├─ [874] ImpToken::balanceOf(RIPEMD-160: [0x0000000000000000000000000000000000000003]) [delegatecall]
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(9000000000000000000 [9e18], 9000000000000000000 [9e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [537] CloneFactory::owner() [staticcall]
+    │   └─ ← [Return] ECRecover: [0x0000000000000000000000000000000000000001]
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 1.55ms (613.50µs CPU time)
+
+Ran 1 test suite in 1133.88s (1.55ms CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
