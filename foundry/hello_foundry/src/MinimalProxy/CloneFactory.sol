@@ -52,18 +52,18 @@ contract CloneFactory is Ownable {
     uint256 amount = token.price() * token.perMint();
     require(msg.value >= amount, "Insufficient funds");
     uint256 fee = amount * feeRate / 100;
-    // payable(owner()).transfer(fee);
-    (bool success,) = payable(owner()).call{ value: fee }(""); // 项目方收取手续费
-    require(success, "Transfer failed");
+    payable(owner()).transfer(fee);
+    // (bool success,) = payable(owner()).call{ value: fee }(""); // 项目方收取手续费
+    // require(success, "Transfer failed");
 
     token.mint(msg.sender);
-    // payable(cloneToOwner[tokenAddr]).transfer(amount - fee); 
-    (success,) = payable(cloneToOwner[tokenAddr]).call{ value: amount - fee }(""); // 发行者收取铸造费用
-    require(success, "Transfer failed");
+    payable(cloneToOwner[tokenAddr]).transfer(amount - fee); 
+    // (success,) = payable(cloneToOwner[tokenAddr]).call{ value: amount - fee }(""); // 发行者收取铸造费用
+    // require(success, "Transfer failed");
     if (msg.value > amount) {
-      // payable(msg.sender).transfer(msg.value - amount);
-      (success,) = payable(msg.sender).call{ value: msg.value - amount }("");
-      require(success, "Transfer failed");
+      payable(msg.sender).transfer(msg.value - amount);
+      // (success,) = payable(msg.sender).call{ value: msg.value - amount }("");
+      // require(success, "Transfer failed");
     }
 
     emit Minted(tokenAddr, token.perMint(), token.price());

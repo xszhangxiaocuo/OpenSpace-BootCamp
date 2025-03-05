@@ -9,15 +9,24 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract MinimalProxyTest is Test {
   CloneFactory factory;
   ImpToken impToken;
-  address owner = address(0x1);
-  address tokenOwner = address(0x2);
-  address minter = address(0x3);
+  // address owner = address(0x1);
+  // address tokenOwner = address(0x2);
+  // address minter = address(0x3);
+  address owner;
+  address tokenOwner;
+  address minter;
+  uint256 k1;
+  uint256 k2;
+  uint256 k3;
   uint256 public platformFeePercentage = 10; // 平台收取10%手续费
   uint256 public mintPrice = 1;
   uint256 public perMint = 10 * 10 ** 18;
   uint256 public totalSupply = 20 * 10 ** 18;
 
   function setUp() public {
+    (owner,k1) = makeAddrAndKey("owner");
+    (tokenOwner,k2) = makeAddrAndKey("tokenOwner");
+    (minter,k3)= makeAddrAndKey("minter");
     vm.startPrank(owner);
     impToken = new ImpToken();
     factory = new CloneFactory(address(impToken));
