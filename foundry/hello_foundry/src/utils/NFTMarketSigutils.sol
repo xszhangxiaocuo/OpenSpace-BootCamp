@@ -19,12 +19,20 @@ contract NFTMarketSigutils {
 
   // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
   bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address buyer,uint256 tokenId,uint256 value,uint256 nonce,uint256 deadline)");
+  bytes32 public constant LIST_PERMIT_TYPEHASH = keccak256("ListPermit(address seller,uint256 tokenId,uint256 price,uint256 deadline)");
 
   struct Permit {
     address buyer;
     uint256 tokenId;
     uint256 value;
     uint256 nonce;
+    uint256 deadline;
+  }
+
+  struct ListPermit {
+    address seller;
+    uint256 tokenId;
+    uint256 price;
     uint256 deadline;
   }
 
@@ -36,5 +44,15 @@ contract NFTMarketSigutils {
   // computes the hash of the fully encoded EIP-712 message for the domain, which can be used to recover the signer
   function getTypedDataHash(Permit memory _permit) public view returns (bytes32) {
     return keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, getStructHash(_permit)));
+  }
+
+  // computes the hash of a permit
+  function getListStructHash(ListPermit memory _permit) internal pure returns (bytes32) {
+    return keccak256(abi.encode(LIST_PERMIT_TYPEHASH, _permit.seller, _permit.tokenId, _permit.price, _permit.deadline));
+  }
+
+  // computes the hash of the fully encoded EIP-712 message for the domain, which can be used to recover the signer
+  function getListTypedDataHash(ListPermit memory _permit) public view returns (bytes32) {
+    return keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, getListStructHash(_permit)));
   }
 }

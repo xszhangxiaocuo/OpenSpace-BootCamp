@@ -26,6 +26,7 @@ contract NFTMarketTest1 is Test {
   NFTMarketSigutils public NFTMARKET_SIGUTILS;
   tokenSigUtils public TOKEN_SIGUTILS;
   // 在测试前部署所需的合约和数据
+
   function setUp() public {
     // 设置账户
     owner = vm.addr(ownerPrivateKey);
@@ -54,6 +55,8 @@ contract NFTMarketTest1 is Test {
     assertEq(nftMarket.getNFTOwner(tokenId), spender);
     vm.stopPrank();
 
+    vm.deal(buyer, 1000 ether);
+
     // 初始化签名工具
     NFTMARKET_SIGUTILS = new NFTMarketSigutils(address(nftMarket));
     TOKEN_SIGUTILS = new tokenSigUtils(tokenAddress);
@@ -66,7 +69,8 @@ contract NFTMarketTest1 is Test {
     uint256 nonce = nftMarket.getPermitNonce(buyer);
     uint256 buyerNonce = IERC20Permit(tokenAddress).nonces(buyer);
     NFTMarket.PermitData memory permitData = NFTMarket.PermitData({ buyer: buyer, tokenId: tokenId, amount: 100 ether, nonce: nonce, deadline: deadline });
-    NFTMarket.TokenPermitData memory tokenPermitData = NFTMarket.TokenPermitData({ owner: buyer, spender: address(nftMarket), amount: 100 ether, nonce: buyerNonce, deadline: deadline });
+    NFTMarket.TokenPermitData memory tokenPermitData =
+      NFTMarket.TokenPermitData({ owner: buyer, spender: address(nftMarket), amount: 100 ether, nonce: buyerNonce, deadline: deadline });
 
     // 构建白名单签名数据
     NFTMarket.Signature[] memory signatures = new NFTMarket.Signature[](2);
@@ -91,5 +95,107 @@ contract NFTMarketTest1 is Test {
     assertEq(nft.ownerOf(tokenId), buyer);
     // assertEq(IERC20(tokenAddress).balanceOf(spender), 100 ether);
     assertEq(IERC20(tokenAddress).balanceOf(buyer), 900 ether);
+  }
+
+  // 测试 permitBuyWithOwnerSignature 是否能正确验签，使用token购买
+  function testPermitBuyWithOwnerSignatureValidSignature() public {
+    // 创建 PermitData 和 TokenPermitData 数据
+    uint256 deadline = block.timestamp + 1 days;
+    uint256 nonce = nftMarket.getPermitNonce(buyer);
+    uint256 buyerNonce = IERC20Permit(tokenAddress).nonces(buyer);
+    NFTMarket.PermitData memory permitData = NFTMarket.PermitData({ buyer: buyer, tokenId: tokenId, amount: 100 ether, nonce: nonce, deadline: deadline });
+    NFTMarket.TokenPermitData memory tokenPermitData =
+      NFTMarket.TokenPermitData({ owner: buyer, spender: address(nftMarket), amount: 100 ether, nonce: buyerNonce, deadline: deadline });
+    NFTMarket.ListPermitData memory listPermitData = NFTMarket.ListPermitData({ seller: spender, tokenId: tokenId, price: 100 ether, deadline: deadline });
+
+    // 构建上架签名数据
+    NFTMarket.Signature[] memory signatures = new NFTMarket.Signature[](3);
+    bytes32 digest = NFTMARKET_SIGUTILS.getListTypedDataHash(
+      NFTMarketSigutils.ListPermit({ seller: listPermitData.seller, tokenId: listPermitData.tokenId, price: listPermitData.price, deadline: listPermitData.deadline })
+    );
+
+    (signatures[0].v, signatures[0].r, signatures[0].s) = vm.sign(spenderPrivateKey, digest);
+    address recovered = ecrecover(digest, signatures[0].v, signatures[0].r, signatures[0].s);
+    assertEq(recovered, spender);
+
+    // 构建白名单签名数据
+    digest = NFTMARKET_SIGUTILS.getTypedDataHash(
+      NFTMarketSigutils.Permit({ buyer: permitData.buyer, tokenId: permitData.tokenId, value: permitData.amount, nonce: permitData.nonce, deadline: permitData.deadline })
+    );
+
+    (signatures[1].v, signatures[1].r, signatures[1].s) = vm.sign(ownerPrivateKey, digest);
+    recovered = ecrecover(digest, signatures[1].v, signatures[1].r, signatures[1].s);
+    assertEq(recovered, owner);
+    // keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, keccak256(abi.encode(PERMIT_TYPEHASH, permitData.buyer, permitData.tokenId, permitData.amount,_useNonce(permitData.buyer), permitData.deadline))))
+    // 对 ERC20 的 permit 签名进行模拟
+    digest = TOKEN_SIGUTILS.getTypedDataHash(tokenSigUtils.Permit({ owner: buyer, spender: address(nftMarket), value: 100 ether, nonce: buyerNonce, deadline: deadline }));
+    (signatures[2].v, signatures[2].r, signatures[2].s) = vm.sign(buyerPrivateKey, digest);
+
+    // 执行 permitBuyWithOwnerSignature
+    vm.startPrank(buyer);
+    vm.expectEmit(true, true, false, true);
+    emit NFTMarket.NFTSold(buyer, tokenId);
+    NFTMarket.PermitBuyWithOwnerSignatureParams memory params = NFTMarket.PermitBuyWithOwnerSignatureParams({
+      listPermitData: listPermitData,
+      permitData: permitData,
+      tokenPermitData: tokenPermitData,
+      signature: signatures
+    });
+    nftMarket.permitBuyWithOwnerSignature(params,true);
+    vm.stopPrank();
+    assertEq(nft.ownerOf(tokenId), buyer);
+    // assertEq(IERC20(tokenAddress).balanceOf(spender), 100 ether);
+    assertEq(IERC20(tokenAddress).balanceOf(buyer), 900 ether);
+  }
+
+
+  // 测试 permitBuyWithOwnerSignature 是否能正确验签，使用ETH购买
+  function testPermitBuyWithOwnerSignatureValidSignatureByETH() public {
+    // 创建 PermitData 和 TokenPermitData 数据
+    uint256 deadline = block.timestamp + 1 days;
+    uint256 nonce = nftMarket.getPermitNonce(buyer);
+    uint256 buyerNonce = IERC20Permit(tokenAddress).nonces(buyer);
+    NFTMarket.PermitData memory permitData = NFTMarket.PermitData({ buyer: buyer, tokenId: tokenId, amount: 100 ether, nonce: nonce, deadline: deadline });
+    NFTMarket.TokenPermitData memory tokenPermitData =
+      NFTMarket.TokenPermitData({ owner: buyer, spender: address(nftMarket), amount: 100 ether, nonce: buyerNonce, deadline: deadline });
+    NFTMarket.ListPermitData memory listPermitData = NFTMarket.ListPermitData({ seller: spender, tokenId: tokenId, price: 100 ether, deadline: deadline });
+
+    // 构建上架签名数据
+    NFTMarket.Signature[] memory signatures = new NFTMarket.Signature[](3);
+    bytes32 digest = NFTMARKET_SIGUTILS.getListTypedDataHash(
+      NFTMarketSigutils.ListPermit({ seller: listPermitData.seller, tokenId: listPermitData.tokenId, price: listPermitData.price, deadline: listPermitData.deadline })
+    );
+
+    (signatures[0].v, signatures[0].r, signatures[0].s) = vm.sign(spenderPrivateKey, digest);
+    address recovered = ecrecover(digest, signatures[0].v, signatures[0].r, signatures[0].s);
+    assertEq(recovered, spender);
+
+    // 构建白名单签名数据
+    digest = NFTMARKET_SIGUTILS.getTypedDataHash(
+      NFTMarketSigutils.Permit({ buyer: permitData.buyer, tokenId: permitData.tokenId, value: permitData.amount, nonce: permitData.nonce, deadline: permitData.deadline })
+    );
+
+    (signatures[1].v, signatures[1].r, signatures[1].s) = vm.sign(ownerPrivateKey, digest);
+    recovered = ecrecover(digest, signatures[1].v, signatures[1].r, signatures[1].s);
+    assertEq(recovered, owner);
+    // keccak256(abi.encodePacked("\x19\x01", DOMAIN_SEPARATOR, keccak256(abi.encode(PERMIT_TYPEHASH, permitData.buyer, permitData.tokenId, permitData.amount,_useNonce(permitData.buyer), permitData.deadline))))
+    // 对 ERC20 的 permit 签名进行模拟
+    digest = TOKEN_SIGUTILS.getTypedDataHash(tokenSigUtils.Permit({ owner: buyer, spender: address(nftMarket), value: 100 ether, nonce: buyerNonce, deadline: deadline }));
+    (signatures[2].v, signatures[2].r, signatures[2].s) = vm.sign(buyerPrivateKey, digest);
+
+    // 执行 permitBuyWithOwnerSignature
+    vm.startPrank(buyer);
+    vm.expectEmit(true, true, false, true);
+    emit NFTMarket.NFTSold(buyer, tokenId);
+     NFTMarket.PermitBuyWithOwnerSignatureParams memory params = NFTMarket.PermitBuyWithOwnerSignatureParams({
+      listPermitData: listPermitData,
+      permitData: permitData,
+      tokenPermitData: tokenPermitData,
+      signature: signatures
+    });
+    nftMarket.permitBuyWithOwnerSignature{ value: 100 ether}(params,false);
+    vm.stopPrank();
+    assertEq(nft.ownerOf(tokenId), buyer);
+    assertEq(spender.balance, 100 ether);
   }
 }
