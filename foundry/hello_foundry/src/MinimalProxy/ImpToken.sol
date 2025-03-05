@@ -8,12 +8,13 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract ImpToken is ERC20 {
   address public owner;
   bool public initialized;
+  string public tokenName="Hoshino";
   string public tokenSymbol;
   uint256 public maxSupply;
   uint256 public perMint;
   uint256 public price;
 
-  constructor() ERC20("Hoshino", tokenSymbol) {
+  constructor() ERC20("", "") {
   }
 
   modifier onlyOwner() {

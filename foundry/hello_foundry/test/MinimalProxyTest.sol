@@ -38,6 +38,8 @@ contract MinimalProxyTest is Test {
   function testDeployInscription() public {
     vm.prank(tokenOwner);
     address tokenAddr = factory.deployInscription("MyToken", totalSupply, perMint, mintPrice);
+    ImpToken token = ImpToken(tokenAddr);
+    assertEq(token.tokenSymbol(),"MyToken");
 
     assert(tokenAddr != address(0));
     assertEq(factory.getTokenOwner(tokenAddr), tokenOwner);
