@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.22;
 
-import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/ERC20Upgradeable.sol";
-import "openzeppelin-contracts-upgradeable/contracts/access/OwnableUpgradeable.sol";
-import "openzeppelin-contracts-upgradeable/contracts/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
-import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/Initializable.sol";
-import "openzeppelin-contracts-upgradeable/contracts/proxy/utils/UUPSUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/extensions/ERC20PermitUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
 contract MyToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, ERC20PermitUpgradeable, UUPSUpgradeable {
     /// @custom:oz-upgrades-unsafe-allow constructor
@@ -14,12 +14,12 @@ contract MyToken is Initializable, ERC20Upgradeable, OwnableUpgradeable, ERC20Pe
     }
 
     function initialize(address initialOwner) initializer public {
-        __ERC20_init("MyToken", "MTK");
+        __ERC20_init("Hoshino", "ho");
         __Ownable_init(initialOwner);
-        __ERC20Permit_init("MyToken");
+        __ERC20Permit_init("Hoshino");
         __UUPSUpgradeable_init();
 
-        _mint(msg.sender, 1000000 * 10 ** decimals());
+        _mint(msg.sender, 10000000 * 10 ** decimals());
     }
 
     function mint(address to, uint256 amount) public onlyOwner {

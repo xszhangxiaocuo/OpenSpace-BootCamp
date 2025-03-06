@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.22;
 
 /*
 编写一个简单的 NFTMarket 合约，使用自己发行的ERC20 扩展 Token 来买卖 NFT， NFTMarket 的函数有：
@@ -14,11 +14,14 @@ buyNFT() : 普通的购买 NFT 功能，用户转入所定价的 token 数量，
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 import "../BaseERC721/MyERC721.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 
-contract NFTMarket {
-  address public immutable token;
-  MyERC721 public immutable nft;
-  address public immutable _owner;
+contract NFTMarketV1 is Initializable, OwnableUpgradeable, UUPSUpgradeable {
+  address public token;
+  MyERC721 public nft;
+  address public _owner;
   mapping(uint256 => uint256) public nftPrices; // NFT id => 价格
   mapping(uint256 => address) public nftOwners; // NFT id => 拥有者地址
 
@@ -27,7 +30,7 @@ contract NFTMarket {
   mapping(bytes32 => bool) public cancelOrders;
 
   // EIP-712 域值常量，用于防止跨合约/链重放
-  bytes32 public immutable DOMAIN_SEPARATOR;
+  bytes32 public DOMAIN_SEPARATOR;
   bytes32 public constant DOMAIN_TYPEHASH = keccak256("EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)");
   // 签名类型哈希，用于离线签名结构
   bytes32 public constant PERMIT_TYPEHASH = keccak256("Permit(address buyer,uint256 tokenId,uint256 value,uint256 nonce,uint256 deadline)");
@@ -38,10 +41,17 @@ contract NFTMarket {
   event NFTSold(address indexed buyer, uint256 indexed nftId);
   event OrderCanceled(address indexed seller, uint256 indexed nftId);
 
-  constructor(address _tokenAddress, address _nftAddress) {
-    token = _tokenAddress;
+  constructor() {
+    _disableInitializers();
+  }
+
+  function initialize(address initialOwner,address _tokenAddress, address _nftAddress) initializer public {
+    __Ownable_init(initialOwner); // 管理员地址
+    __UUPSUpgradeable_init();
+     token = _tokenAddress;
     nft = MyERC721(_nftAddress);
-    _owner = msg.sender;
+    _owner = msg.sender; // 项目方地址
+
     // 设置 EIP712 域分隔符（包含合约名称、版本、链ID、合约地址）
     DOMAIN_SEPARATOR = keccak256(
       abi.encode(
@@ -53,6 +63,8 @@ contract NFTMarket {
       )
     );
   }
+
+  function _authorizeUpgrade(address newImplementation) internal onlyOwner override {}
 
   fallback() external {
     revert("Fallback call");
@@ -220,7 +232,7 @@ contract NFTMarket {
     }
   }
 
-  // 取消订单，验签
+  // 取消订单
   function cancelOrder(ListPermitData calldata listPermitData) public {
     // 上架签名生成的订单ID
     bytes32 orderid = keccak256(abi.encode(LIST_PERMIT_TYPEHASH, listPermitData.seller, listPermitData.tokenId, listPermitData.price, listPermitData.deadline));
@@ -233,17 +245,17 @@ contract NFTMarket {
     return uint256(keccak256(abi.encodePacked(tokenId, msg.sender)));
   }
 
-  function getPermitNonce(address owner) public view returns (uint256) {
-    return nonces[owner];
+  function getPermitNonce(address addr) public view returns (uint256) {
+    return nonces[addr];
   }
 
   function getNFTPrice(uint256 tokenId) public view returns (uint256) {
     return nftPrices[tokenId];
   }
 
-  function _useNonce(address owner) internal virtual returns (uint256) {
+  function _useNonce(address addr) internal virtual returns (uint256) {
     unchecked {
-      return nonces[owner]++;
+      return nonces[addr]++;
     }
   }
 

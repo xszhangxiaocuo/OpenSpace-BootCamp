@@ -2,6 +2,10 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+build_info = true
+extra_output = ["storageLayout"]
+ffi = true
+ast = true
 
 [fmt]
 line_length = 180
@@ -14,5 +18,6 @@ local = "http://localhost:8545"
 
 [etherscan]
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
+
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
