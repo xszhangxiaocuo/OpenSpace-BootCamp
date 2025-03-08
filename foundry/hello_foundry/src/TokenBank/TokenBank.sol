@@ -28,6 +28,7 @@ contract TokenBank {
     (bool success,) = tokens.call(abi.encodeCall(IERC20(tokens).transferFrom, (msg.sender, address(this), amount)));
     require(success, "TokenBank: deposit failed");
     balances[msg.sender] += amount;
+    rankDeposit(msg.sender);
     emit Deposited(msg.sender, amount);
   }
 
@@ -45,12 +46,20 @@ contract TokenBank {
     // IERC20(tokens).transferFrom(owner, address(this), amount);
     SafeERC20.safeTransferFrom(IERC20(tokens), owner,address(this), amount); // 要使用SafeERC20进行安全转账
     balances[owner] += amount;
+    rankDeposit(owner);
     emit Deposited(owner, amount);
   }
 
   // 如果存款排名发生变化，修改balanceList中的存款排名
   function rankDeposit(address user) public {
-
+    uint256 userBalance = balances[user];
+    uint256 minBalance = balanceList.getMinBalance();
+    // 如果用户已经在前10名中，或存款大于最小存款，则更新存款排名
+    if(balanceList.isUser(user)){ // 已经存在的用户更新存款
+      balanceList.updateBalance(user, userBalance);
+    }else if (userBalance > minBalance) { // 新用户存款大于前十名的最小存款
+      balanceList.addUser(user, userBalance);
+    }
   }
 
   function getDepositBalance(address user) public view returns (uint256) {
