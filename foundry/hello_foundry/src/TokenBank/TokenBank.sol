@@ -57,7 +57,7 @@ contract TokenBank {
     // 如果用户已经在前10名中，或存款大于最小存款，则更新存款排名
     if(balanceList.isUser(user)){ // 已经存在的用户更新存款
       balanceList.updateBalance(user, userBalance);
-    }else if (userBalance > minBalance) { // 新用户存款大于前十名的最小存款
+    }else if (userBalance > minBalance||balanceList.listSize()<10) { // 新用户存款大于前十名的最小存款
       balanceList.addUser(user, userBalance);
     }
   }
