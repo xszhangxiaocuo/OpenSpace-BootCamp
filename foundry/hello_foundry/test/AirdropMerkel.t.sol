@@ -70,11 +70,11 @@ contract AirdropMerkleTest is Test {
     data[0] = abi.encodeWithSelector(AirdropMerkleNFTMarket.permitPrePay.selector, tokenPermitData, signature);
 
     // 后调用claimNFT
-    data[1] = abi.encodeWithSelector(AirdropMerkleNFTMarket.claimNFT.selector, merkleProof, tokenId, amount);
+    data[1] = abi.encodeWithSelector(AirdropMerkleNFTMarket.claimNFT.selector, merkleProof, tokenId);
 
     vm.prank(buyer);
     nftMarket.multicall(data);
     assertEq(nft.ownerOf(tokenId), buyer);
-    assertEq(IERC20(tokenAddress).balanceOf(spender), amount);
+    assertEq(IERC20(tokenAddress).balanceOf(spender), amount/2);
   }
 }

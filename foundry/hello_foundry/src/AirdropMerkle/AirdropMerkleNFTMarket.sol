@@ -266,11 +266,11 @@ contract AirdropMerkleNFTMarket is MerkleDistributor, Multicall {
   }
 
   // 通过Merkle树验证用户是否在白名单中，使用Multicall一次性调用两个方法
-  function claimNFT(bytes32[] calldata merkleProof,uint256 tokenId, uint256 amount) public {
+  function claimNFT(bytes32[] calldata merkleProof,uint256 tokenId) public {
     // 通过Merkle树验证用户是否在白名单中
     claim(msg.sender, merkleProof);
-    // 转移NFT并支付Token
-    SafeERC20.safeTransferFrom(IERC20(token), msg.sender, nftOwners[tokenId], amount);
+    // 转移NFT并支付Token，半价购买
+    SafeERC20.safeTransferFrom(IERC20(token), msg.sender, nftOwners[tokenId], nftPrices[tokenId]/2);
     transferNFT(msg.sender, tokenId);
   }
 }
