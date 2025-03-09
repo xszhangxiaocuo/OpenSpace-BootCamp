@@ -12,6 +12,7 @@ buyNFT() : 普通的购买 NFT 功能，用户转入所定价的 token 数量，
 */
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 import "../BaseERC721/MyERC721.sol";
 
@@ -76,11 +77,11 @@ contract NFTMarket {
     require(msg.sender != oldOwner, "you are the owner of this nft");
     require(amount >= nftPrices[tokenId], "amount is not enough");
 
-    IERC20(token).transferFrom(msg.sender, address(this), prices);
+    SafeERC20.safeTransferFrom(IERC20(token), msg.sender, address(this), prices);
     transferNFT(msg.sender, tokenId);
-    IERC20(token).transfer(oldOwner, prices);
+    SafeERC20.safeTransfer(IERC20(token), oldOwner, prices);
     if (amount > prices) {
-      IERC20(token).transfer(msg.sender, amount - prices);
+      SafeERC20.safeTransfer(IERC20(token), msg.sender, amount - prices);
     }
   }
 
@@ -110,9 +111,9 @@ contract NFTMarket {
     require(_amount >= _value, "amount is not enough");
 
     transferNFT(_addr, tokenId);
-    IERC20(token).transfer(_to, _value);
+    SafeERC20.safeTransfer(IERC20(token), _to, _value);
     if (_amount > _value) {
-      IERC20(token).transfer(_addr, _amount - _value);
+      SafeERC20.safeTransfer(IERC20(token), _addr, _amount - _value);
     }
     return true;
   }
@@ -147,9 +148,9 @@ contract NFTMarket {
   }
 
   struct PermitBuyWithOwnerSignatureParams {
-    PermitData permitData;
-    TokenPermitData tokenPermitData;
-    ListPermitData listPermitData;
+    PermitData permitData; // 白名单签名
+    TokenPermitData tokenPermitData; // 买家token转账签名
+    ListPermitData listPermitData;  // 卖家上架签名
     Signature[] signature;
   }
 
@@ -171,7 +172,7 @@ contract NFTMarket {
     transferNFT(permitData.buyer, permitData.tokenId);
     Signature memory permitSig = signature[1];
     IERC20Permit(token).permit(tokenPermitData.owner, tokenPermitData.spender, tokenPermitData.amount, tokenPermitData.deadline, permitSig.v, permitSig.r, permitSig.s);
-    IERC20(token).transferFrom(tokenPermitData.owner, oldOwner, tokenPermitData.amount);
+    SafeERC20.safeTransferFrom(IERC20(token), tokenPermitData.owner, oldOwner, tokenPermitData.amount);
   }
 
   // 通过EIP712签名购买 NFT,同时需要验证 NFT 拥有者的签名
@@ -212,8 +213,7 @@ contract NFTMarket {
       IERC20Permit(token).permit(
         params.tokenPermitData.owner, params.tokenPermitData.spender, params.tokenPermitData.amount, params.tokenPermitData.deadline, permitSig.v, permitSig.r, permitSig.s
       );
-      IERC20(token).transferFrom(params.tokenPermitData.owner, nftOwner, params.tokenPermitData.amount);
-    } else {
+      SafeERC20.safeTransferFrom(IERC20(token), params.tokenPermitData.owner, nftOwner, params.tokenPermitData.amount);
       // 使用ETH购买
       require(msg.value >= params.permitData.amount, "permitBuyWithOwnerSignature: Insufficient ETH");
       payable(params.listPermitData.seller).transfer(params.listPermitData.price);
@@ -221,10 +221,16 @@ contract NFTMarket {
   }
 
   // 取消订单，验签
-  function cancelOrder(ListPermitData calldata listPermitData) public {
+  function cancelOrder(ListPermitData calldata listPermitData, Signature calldata sig) public {
     // 验证签名
     require(listPermitData.deadline >= block.timestamp, "cancelOrder: Permit expired");
-
+    bytes32 digest = keccak256(
+      abi.encodePacked(
+        "\x19\x01", DOMAIN_SEPARATOR, keccak256(abi.encode(LIST_PERMIT_TYPEHASH, listPermitData.seller, listPermitData.tokenId, listPermitData.price, listPermitData.deadline))
+      )
+    );
+    address signer = ecrecover(digest, sig.v, sig.r, sig.s);
+    require(signer == msg.sender, "cancelOrder: Invalid signature");
     // 上架签名生成的订单ID
     bytes32 orderid = keccak256(abi.encode(LIST_PERMIT_TYPEHASH, listPermitData.seller, listPermitData.tokenId, listPermitData.price, listPermitData.deadline));
     require(!cancelOrders[orderid], "cancelOrder: Order already canceled");

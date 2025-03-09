@@ -195,20 +195,20 @@ contract NFTMarketTest1 is Test {
     uint256 deadline = block.timestamp + 1 days;
     NFTMarket.ListPermitData memory listPermitData = NFTMarket.ListPermitData({ seller: spender, tokenId: tokenId, price: 100 ether, deadline: deadline });
     // 构建上架签名数据
-    NFTMarket.Signature[] memory signatures = new NFTMarket.Signature[](3);
+    NFTMarket.Signature memory signatures;
     bytes32 digest = NFTMARKET_SIGUTILS.getListTypedDataHash(
       NFTMarketSigutils.ListPermit({ seller: listPermitData.seller, tokenId: listPermitData.tokenId, price: listPermitData.price, deadline: listPermitData.deadline })
     );
 
-    (signatures[0].v, signatures[0].r, signatures[0].s) = vm.sign(spenderPrivateKey, digest);
-    address recovered = ecrecover(digest, signatures[0].v, signatures[0].r, signatures[0].s);
+    (signatures.v, signatures.r, signatures.s) = vm.sign(spenderPrivateKey, digest);
+    address recovered = ecrecover(digest, signatures.v, signatures.r, signatures.s);
     assertEq(recovered, spender);
 
     // 执行 cancelOrder
     vm.startPrank(spender);
     vm.expectEmit(true, true, false, true);
     emit NFTMarket.OrderCanceled(spender, tokenId);
-    nftMarket.cancelOrder(listPermitData);
+    nftMarket.cancelOrder(listPermitData,signatures);
     vm.stopPrank();
   }
 }
