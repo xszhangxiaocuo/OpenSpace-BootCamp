@@ -135,19 +135,14 @@ contract NFTMarketTest1 is Test {
     vm.startPrank(buyer);
     vm.expectEmit(true, true, false, true);
     emit NFTMarket.NFTSold(buyer, tokenId);
-    NFTMarket.PermitBuyWithOwnerSignatureParams memory params = NFTMarket.PermitBuyWithOwnerSignatureParams({
-      listPermitData: listPermitData,
-      permitData: permitData,
-      tokenPermitData: tokenPermitData,
-      signature: signatures
-    });
-    nftMarket.permitBuyWithOwnerSignature(params,true);
+    NFTMarket.PermitBuyWithOwnerSignatureParams memory params =
+      NFTMarket.PermitBuyWithOwnerSignatureParams({ listPermitData: listPermitData, permitData: permitData, tokenPermitData: tokenPermitData, signature: signatures });
+    nftMarket.permitBuyWithOwnerSignature(params, true);
     vm.stopPrank();
     assertEq(nft.ownerOf(tokenId), buyer);
     // assertEq(IERC20(tokenAddress).balanceOf(spender), 100 ether);
     assertEq(IERC20(tokenAddress).balanceOf(buyer), 900 ether);
   }
-
 
   // 测试 permitBuyWithOwnerSignature 是否能正确验签，使用ETH购买
   function testPermitBuyWithOwnerSignatureValidSignatureByETH() public {
@@ -187,13 +182,9 @@ contract NFTMarketTest1 is Test {
     vm.startPrank(buyer);
     vm.expectEmit(true, true, false, true);
     emit NFTMarket.NFTSold(buyer, tokenId);
-     NFTMarket.PermitBuyWithOwnerSignatureParams memory params = NFTMarket.PermitBuyWithOwnerSignatureParams({
-      listPermitData: listPermitData,
-      permitData: permitData,
-      tokenPermitData: tokenPermitData,
-      signature: signatures
-    });
-    nftMarket.permitBuyWithOwnerSignature{ value: 100 ether}(params,false);
+    NFTMarket.PermitBuyWithOwnerSignatureParams memory params =
+      NFTMarket.PermitBuyWithOwnerSignatureParams({ listPermitData: listPermitData, permitData: permitData, tokenPermitData: tokenPermitData, signature: signatures });
+    nftMarket.permitBuyWithOwnerSignature{ value: 100 ether }(params, false);
     vm.stopPrank();
     assertEq(nft.ownerOf(tokenId), buyer);
     assertEq(spender.balance, 100 ether);
@@ -201,8 +192,8 @@ contract NFTMarketTest1 is Test {
 
   // 测试取消订单
   function testCancelOrder() public {
-     uint256 deadline = block.timestamp + 1 days;
-      NFTMarket.ListPermitData memory listPermitData = NFTMarket.ListPermitData({ seller: spender, tokenId: tokenId, price: 100 ether, deadline: deadline });
+    uint256 deadline = block.timestamp + 1 days;
+    NFTMarket.ListPermitData memory listPermitData = NFTMarket.ListPermitData({ seller: spender, tokenId: tokenId, price: 100 ether, deadline: deadline });
     // 构建上架签名数据
     NFTMarket.Signature[] memory signatures = new NFTMarket.Signature[](3);
     bytes32 digest = NFTMARKET_SIGUTILS.getListTypedDataHash(

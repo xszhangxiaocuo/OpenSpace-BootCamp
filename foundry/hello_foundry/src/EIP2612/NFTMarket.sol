@@ -222,9 +222,9 @@ contract NFTMarket {
 
   // 取消订单，验签
   function cancelOrder(ListPermitData calldata listPermitData) public {
-    // 验证签名 
+    // 验证签名
     require(listPermitData.deadline >= block.timestamp, "cancelOrder: Permit expired");
-    
+
     // 上架签名生成的订单ID
     bytes32 orderid = keccak256(abi.encode(LIST_PERMIT_TYPEHASH, listPermitData.seller, listPermitData.tokenId, listPermitData.price, listPermitData.deadline));
     require(!cancelOrders[orderid], "cancelOrder: Order already canceled");
