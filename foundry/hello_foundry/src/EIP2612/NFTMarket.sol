@@ -12,7 +12,7 @@ buyNFT() : 普通的购买 NFT 功能，用户转入所定价的 token 数量，
 */
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 import "../BaseERC721/MyERC721.sol";
 
@@ -150,7 +150,7 @@ contract NFTMarket {
   struct PermitBuyWithOwnerSignatureParams {
     PermitData permitData; // 白名单签名
     TokenPermitData tokenPermitData; // 买家token转账签名
-    ListPermitData listPermitData;  // 卖家上架签名
+    ListPermitData listPermitData; // 卖家上架签名
     Signature[] signature;
   }
 
@@ -213,6 +213,7 @@ contract NFTMarket {
         params.tokenPermitData.owner, params.tokenPermitData.spender, params.tokenPermitData.amount, params.tokenPermitData.deadline, permitSig.v, permitSig.r, permitSig.s
       );
       SafeERC20.safeTransferFrom(IERC20(token), params.tokenPermitData.owner, nftOwner, params.tokenPermitData.amount);
+    } else {
       // 使用ETH购买
       require(msg.value >= params.permitData.amount, "permitBuyWithOwnerSignature: Insufficient ETH");
       payable(params.listPermitData.seller).transfer(params.listPermitData.price);
