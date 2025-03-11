@@ -3,7 +3,7 @@ package main
 import (
 	router "go-ether/api"
 	_ "go-ether/api/api"
-	"go-ether/db"
+	"go-ether/global/database"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -29,7 +29,7 @@ func CorsMiddleware() gin.HandlerFunc {
 func main() {
 	r := gin.Default()
 	r.Use(CorsMiddleware())
-	db.InitDB()
+	database.InitDB()
 	router.InitRouter(r)
 	r.Run(":8078")
 }
