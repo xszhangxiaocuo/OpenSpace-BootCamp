@@ -202,7 +202,6 @@ contract NFTMarket {
     );
     signer = ecrecover(hashStruct, buySig.v, buySig.r, buySig.s);
     require(signer == _owner, "permitBuyWithOwnerSignature: Invalid permit signature"); // 签名地址必须是合约部署者
-
     // 白名单用户携带上架者签名购买
     nft.safeTransferFrom(nftOwner, params.permitData.buyer, params.permitData.tokenId);
     emit NFTSold(msg.sender, params.permitData.tokenId);

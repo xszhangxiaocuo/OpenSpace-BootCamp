@@ -1,0 +1,212 @@
+xszxc@192 hello_foundry % forge test --mc IDOPresaleTest -vvvv
+[⠒] Compiling...
+[⠃] Compiling 1 files with Solc 0.8.25
+[⠊] Solc 0.8.25 finished in 714.63ms
+Compiler run successful with warnings:
+Warning (2072): Unused local variable.
+  --> test/IDOPresale.t.sol:43:13:
+   |
+43 |             uint256 startTime,
+   |             ^^^^^^^^^^^^^^^^^
+
+
+Ran 7 tests for test/IDOPresale.t.sol:IDOPresaleTest
+[PASS] testClaimRefundFailure() (gas: 240016)
+Traces:
+  [259916] IDOPresaleTest::testClaimRefundFailure()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [46240] IDOPresale::contribute{value: 500000000000000000}()
+    │   ├─ emit Contributed(contributor: 0x0000000000000000000000000000000000000456, amount: 500000000000000000 [5e17])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(86402 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [11566] IDOPresale::claimRefund()
+    │   ├─ [0] 0x0000000000000000000000000000000000000456::fallback{value: 500000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   ├─ emit Refunded(user: 0x0000000000000000000000000000000000000456, amount: 500000000000000000 [5e17])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [847] IDOPresale::contributions(0x0000000000000000000000000000000000000456) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testClaimTokensSuccess() (gas: 268939)
+Traces:
+  [288839] IDOPresaleTest::testClaimTokensSuccess()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [46240] IDOPresale::contribute{value: 1000000000000000000}()
+    │   ├─ emit Contributed(contributor: 0x0000000000000000000000000000000000000456, amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(86402 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [38983] IDOPresale::claimTokens()
+    │   ├─ [30506] MyToken::transfer(0x0000000000000000000000000000000000000456, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: IDOPresale: [0xc4B957Cd61beB9b9afD76204b30683EDAaaB51Ec], to: 0x0000000000000000000000000000000000000456, value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit TokensClaimed(user: 0x0000000000000000000000000000000000000456, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [896] MyToken::balanceOf(0x0000000000000000000000000000000000000456) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [847] IDOPresale::contributions(0x0000000000000000000000000000000000000456) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testContribute() (gas: 249638)
+Traces:
+  [249638] IDOPresaleTest::testContribute()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [46240] IDOPresale::contribute{value: 500000000000000000}()
+    │   ├─ emit Contributed(contributor: 0x0000000000000000000000000000000000000456, amount: 500000000000000000 [5e17])
+    │   └─ ← [Stop] 
+    ├─ [847] IDOPresale::contributions(0x0000000000000000000000000000000000000456) [staticcall]
+    │   └─ ← [Return] 500000000000000000 [5e17]
+    ├─ [0] VM::assertEq(500000000000000000 [5e17], 500000000000000000 [5e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [2224] IDOPresale::getPresaleInfo() [staticcall]
+    │   └─ ← [Return] MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4], 1, 500000000000000000 [5e17], 1
+    ├─ [0] VM::assertEq(500000000000000000 [5e17], 500000000000000000 [5e17]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testContributeExceedsCap() (gas: 198778)
+Traces:
+  [198778] IDOPresaleTest::testContributeExceedsCap()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 3000000000000000000 [3e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  
+                                                      Exceeds cap)
+    │   └─ ← [Return] 
+    ├─ [1994] IDOPresale::contribute{value: 3000000000000000000}()
+    │   └─ ← [Revert] revert: Exceeds cap
+    └─ ← [Stop] 
+
+[PASS] testStartPresale() (gas: 194976)
+Traces:
+  [194976] IDOPresaleTest::testStartPresale()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [2224] IDOPresale::getPresaleInfo() [staticcall]
+    │   └─ ← [Return] MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4], 1, 0, 1
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(100000000000000000 [1e17], 100000000000000000 [1e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(2000000000000000000 [2e18], 2000000000000000000 [2e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(86400 [8.64e4], 86400 [8.64e4]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1, 1) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testWithdrawFunds() (gas: 283377)
+Traces:
+  [283377] IDOPresaleTest::testWithdrawFunds()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [46240] IDOPresale::contribute{value: 1000000000000000000}()
+    │   ├─ emit Contributed(contributor: 0x0000000000000000000000000000000000000456, amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(86402 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [33264] IDOPresale::withdrawFunds()
+    │   ├─ [0] 0x0000000000000000000000000000000000000123::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   ├─ emit FundsWithdrawn(amount: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [533] IDOPresale::isWithdrawn() [staticcall]
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testWithdrawFundsWhenFailed() (gas: 247770)
+Traces:
+  [247770] IDOPresaleTest::testWithdrawFundsWhenFailed()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [163881] IDOPresale::startPresale(MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], 100000000000000000 [1e17], 1000000000000000000 [1e18], 2000000000000000000 [2e18], 86400 [8.64e4])
+    │   ├─ emit PresaleStarted(token: MyToken: [0x6cdBd1b486b8FBD4140e8cd6daAED05bE13eD914], price: 100000000000000000 [1e17], goal: 1000000000000000000 [1e18], cap: 2000000000000000000 [2e18], duration: 86400 [8.64e4])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000456, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [46240] IDOPresale::contribute{value: 500000000000000000}()
+    │   ├─ emit Contributed(contributor: 0x0000000000000000000000000000000000000456, amount: 500000000000000000 [5e17])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(86402 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Cannot withdraw yet)
+    │   └─ ← [Return] 
+    ├─ [2583] IDOPresale::withdrawFunds()
+    │   └─ ← [Revert] revert: Cannot withdraw yet
+    └─ ← [Stop] 
+
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 8.03ms (9.70ms CPU time)
+
+Ran 1 test suite in 2.08s (8.03ms CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)

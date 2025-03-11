@@ -211,4 +211,22 @@ contract NFTMarketTest1 is Test {
     nftMarket.cancelOrder(listPermitData,signatures);
     vm.stopPrank();
   }
+
+  function testGasConsumption() public {
+    vm.startPrank(spender);
+
+    // 开始记录 gas
+    uint256 gasStart = gasleft();
+
+    // 目标代码行
+    nft.approve(address(nftMarket), tokenId);
+
+    // 结束记录 gas
+    uint256 gasUsed = gasStart - gasleft();
+
+    vm.stopPrank();
+
+    // 输出 gas 消耗
+    console.log("Gas used for nft.approve:", gasUsed);
+  }
 }
