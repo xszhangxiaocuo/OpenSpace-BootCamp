@@ -1,0 +1,295 @@
+xszxc@192 hello_foundry % forge test --mc Staking -vvvv
+[⠊] Compiling...
+[⠘] Compiling 1 files with Solc 0.8.25
+[⠃] Solc 0.8.25 finished in 679.88ms
+Compiler run successful with warnings:
+Warning (2072): Unused local variable.
+  --> test/StakingMining.t.sol:43:22:
+   |
+43 |     (uint256 amount, uint256 rewards) = staking.getStakeInfo(user1);
+   |                      ^^^^^^^^^^^^^^^
+
+Warning (2072): Unused local variable.
+  --> test/StakingMining.t.sol:61:22:
+   |
+61 |     (uint256 amount, uint256 rewards) = staking.getStakeInfo(user1);
+   |                      ^^^^^^^^^^^^^^^
+
+Warning (2072): Unused local variable.
+  --> test/StakingMining.t.sol:79:22:
+   |
+79 |     (uint256 amount, uint256 rewards) = staking.getStakeInfo(user1);
+   |                      ^^^^^^^^^^^^^^^
+
+
+Ran 7 tests for test/StakingMining.t.sol:StakingMiningTest
+[PASS] testClaimRewards() (gas: 263128)
+Traces:
+  [322828] StakingMiningTest::testClaimRewards()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25321] RNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [65195] StakingMining::staked(10000000000000000000 [1e19])
+    │   ├─ [14542] RNT::transferFrom(0x0000000000000000000000000000000000000123, StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Staked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(172801 [1.728e5])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [204929] StakingMining::claimRewards()
+    │   ├─ [25321] RNT::approve(EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 20000000000000000000 [2e19])
+    │   │   ├─ emit Approval(owner: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], spender: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 20000000000000000000 [2e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [146392] EsRNT::mint(0x0000000000000000000000000000000000000123, 20000000000000000000 [2e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 20000000000000000000 [2e19])
+    │   │   ├─ [26842] RNT::transferFrom(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 20000000000000000000 [2e19])
+    │   │   │   ├─ emit Transfer(from: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 20000000000000000000 [2e19])
+    │   │   │   └─ ← [Return] true
+    │   │   └─ ← [Stop] 
+    │   ├─ emit RewardsClaimed(user: 0x0000000000000000000000000000000000000123, amount: 20000000000000000000 [2e19])
+    │   └─ ← [Stop] 
+    ├─ [2618] StakingMining::getStakeInfo(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19], 0
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [962] EsRNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 20000000000000000000 [2e19]
+    ├─ [0] VM::assertEq(20000000000000000000 [2e19], 20000000000000000000 [2e19]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testConvertEsRNTFullUnlock() (gas: 327005)
+Traces:
+  [414022] StakingMiningTest::testConvertEsRNTFullUnlock()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25321] RNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [65195] StakingMining::staked(10000000000000000000 [1e19])
+    │   ├─ [14542] RNT::transferFrom(0x0000000000000000000000000000000000000123, StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Staked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(86401 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [204929] StakingMining::claimRewards()
+    │   ├─ [25321] RNT::approve(EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 10000000000000000000 [1e19])
+    │   │   ├─ emit Approval(owner: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], spender: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [146392] EsRNT::mint(0x0000000000000000000000000000000000000123, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 10000000000000000000 [1e19])
+    │   │   ├─ [26842] RNT::transferFrom(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 10000000000000000000 [1e19])
+    │   │   │   ├─ emit Transfer(from: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Return] true
+    │   │   └─ ← [Stop] 
+    │   ├─ emit RewardsClaimed(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(2678401 [2.678e6])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [962] EsRNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [25321] EsRNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [0] VM::expectEmit(true, false, false, true)
+    │   └─ ← [Return] 
+    ├─ emit EsRNTConverted(user: 0x0000000000000000000000000000000000000123, esRNTAmount: 10000000000000000000 [1e19], rntAmount: 10000000000000000000 [1e19], burnedAmount: 0)
+    ├─ [58823] StakingMining::convertEsRNT(0)
+    │   ├─ [28856] EsRNT::convertEsRNT(0x0000000000000000000000000000000000000123, 0)
+    │   │   ├─ [3806] RNT::transfer(0x0000000000000000000000000000000000000123, 10000000000000000000 [1e19])
+    │   │   │   ├─ emit Transfer(from: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], to: 0x0000000000000000000000000000000000000123, value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Return] true
+    │   │   ├─ emit EsRNTConverted(user: 0x0000000000000000000000000000000000000123, esRNTAmount: 10000000000000000000 [1e19], rntAmount: 10000000000000000000 [1e19], burnedAmount: 0)
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [26797] EsRNT::transferFrom(0x0000000000000000000000000000000000000123, 0x000000000000000000000000000000000000dEaD, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: 0x000000000000000000000000000000000000dEaD, value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [896] RNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 100000000000000000000 [1e20]
+    ├─ [0] VM::assertEq(100000000000000000000 [1e20], 100000000000000000000 [1e20]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [962] EsRNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testConvertEsRNTPartialUnlock() (gas: 349130)
+Traces:
+  [441678] StakingMiningTest::testConvertEsRNTPartialUnlock()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25321] RNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [65195] StakingMining::staked(10000000000000000000 [1e19])
+    │   ├─ [14542] RNT::transferFrom(0x0000000000000000000000000000000000000123, StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Staked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(86401 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [204929] StakingMining::claimRewards()
+    │   ├─ [25321] RNT::approve(EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 10000000000000000000 [1e19])
+    │   │   ├─ emit Approval(owner: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], spender: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ [146392] EsRNT::mint(0x0000000000000000000000000000000000000123, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 10000000000000000000 [1e19])
+    │   │   ├─ [26842] RNT::transferFrom(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 10000000000000000000 [1e19])
+    │   │   │   ├─ emit Transfer(from: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 10000000000000000000 [1e19])
+    │   │   │   └─ ← [Return] true
+    │   │   └─ ← [Stop] 
+    │   ├─ emit RewardsClaimed(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(1382401 [1.382e6])
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [962] EsRNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19]
+    ├─ [25321] EsRNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [0] VM::expectEmit(true, false, false, true)
+    │   └─ ← [Return] 
+    ├─ emit EsRNTConverted(user: 0x0000000000000000000000000000000000000123, esRNTAmount: 10000000000000000000 [1e19], rntAmount: 5000000000000000000 [5e18], burnedAmount: 5000000000000000000 [5e18])
+    ├─ [86411] StakingMining::convertEsRNT(0)
+    │   ├─ [56444] EsRNT::convertEsRNT(0x0000000000000000000000000000000000000123, 0)
+    │   │   ├─ [3806] RNT::transfer(0x0000000000000000000000000000000000000123, 5000000000000000000 [5e18])
+    │   │   │   ├─ emit Transfer(from: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], to: 0x0000000000000000000000000000000000000123, value: 5000000000000000000 [5e18])
+    │   │   │   └─ ← [Return] true
+    │   │   ├─ [25706] RNT::transfer(0x000000000000000000000000000000000000dEaD, 5000000000000000000 [5e18])
+    │   │   │   ├─ emit Transfer(from: EsRNT: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], to: 0x000000000000000000000000000000000000dEaD, value: 5000000000000000000 [5e18])
+    │   │   │   └─ ← [Return] true
+    │   │   ├─ emit EsRNTConverted(user: 0x0000000000000000000000000000000000000123, esRNTAmount: 10000000000000000000 [1e19], rntAmount: 5000000000000000000 [5e18], burnedAmount: 5000000000000000000 [5e18])
+    │   │   └─ ← [Return] 10000000000000000000 [1e19]
+    │   ├─ [26797] EsRNT::transferFrom(0x0000000000000000000000000000000000000123, 0x000000000000000000000000000000000000dEaD, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: 0x000000000000000000000000000000000000dEaD, value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [896] RNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 95000000000000000000 [9.5e19]
+    ├─ [0] VM::assertEq(95000000000000000000 [9.5e19], 95000000000000000000 [9.5e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [962] EsRNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testStake() (gas: 98884)
+Traces:
+  [118784] StakingMiningTest::testStake()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25321] RNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [65195] StakingMining::staked(10000000000000000000 [1e19])
+    │   ├─ [14542] RNT::transferFrom(0x0000000000000000000000000000000000000123, StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Staked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [4618] StakingMining::getStakeInfo(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 10000000000000000000 [1e19], 0
+    ├─ [0] VM::assertEq(10000000000000000000 [1e19], 10000000000000000000 [1e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [896] RNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 90000000000000000000 [9e19]
+    ├─ [0] VM::assertEq(90000000000000000000 [9e19], 90000000000000000000 [9e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [896] RNT::balanceOf(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 5000000010000000000000000000 [5e27]
+    ├─ [0] VM::assertEq(5000000010000000000000000000 [5e27], 5000000010000000000000000000 [5e27]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testUnstake() (gas: 114259)
+Traces:
+  [148089] StakingMiningTest::testUnstake()
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25321] RNT::approve(StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   └─ ← [Return] true
+    ├─ [65195] StakingMining::staked(10000000000000000000 [1e19])
+    │   ├─ [14542] RNT::transferFrom(0x0000000000000000000000000000000000000123, StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Staked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::warp(86401 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [32120] StakingMining::unstake(10000000000000000000 [1e19])
+    │   ├─ [3806] RNT::transfer(0x0000000000000000000000000000000000000123, 10000000000000000000 [1e19])
+    │   │   ├─ emit Transfer(from: StakingMining: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: 0x0000000000000000000000000000000000000123, value: 10000000000000000000 [1e19])
+    │   │   └─ ← [Return] true
+    │   ├─ emit Unstaked(user: 0x0000000000000000000000000000000000000123, amount: 10000000000000000000 [1e19])
+    │   └─ ← [Stop] 
+    ├─ [2618] StakingMining::getStakeInfo(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 0, 10000000000000000000 [1e19]
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [896] RNT::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 100000000000000000000 [1e20]
+    ├─ [0] VM::assertEq(100000000000000000000 [1e20], 100000000000000000000 [1e20]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_RevertWhen_ClaimRewardsNoStake() (gas: 16452)
+Traces:
+  [16452] StakingMiningTest::test_RevertWhen_ClaimRewardsNoStake()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  No rewards to claim)
+    │   └─ ← [Return] 
+    ├─ [5465] StakingMining::claimRewards()
+    │   └─ ← [Revert] revert: No rewards to claim
+    └─ ← [Stop] 
+
+[PASS] test_RevertWhen_UnstakeExceedsAmount() (gas: 14708)
+Traces:
+  [14708] StakingMiningTest::test_RevertWhen_UnstakeExceedsAmount()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Insufficient staked amount)
+    │   └─ ← [Return] 
+    ├─ [3448] StakingMining::unstake(10000000000000000000 [1e19])
+    │   └─ ← [Revert] revert: Insufficient staked amount
+    └─ ← [Stop] 
+
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 8.19ms (20.59ms CPU time)
+
+Ran 1 test suite in 2.09s (8.19ms CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)
