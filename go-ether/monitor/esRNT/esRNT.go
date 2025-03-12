@@ -18,10 +18,8 @@ type LockInfo struct {
 }
 
 func main() {
-	// Sepolia RPC 端点 (你需要替换为有效的 RPC URL)
 	rpcURL := "https://ethereum-sepolia.rpc.subquery.network/public"
 
-	// 替换为你的合约地址
 	contractAddress := common.HexToAddress("0x12E5fe7021a48705B2AeDaA31F203B09A3ADb08f")
 
 	// 连接到 Sepolia 网络
@@ -45,7 +43,6 @@ func main() {
 		log.Fatalf("Failed to read locks: %v", err)
 	}
 
-	// 打印结果
 	for i, lock := range locks {
 		fmt.Printf("locks[%d]: user: %s, startTime: %d, amount: %s\n",
 			i,
