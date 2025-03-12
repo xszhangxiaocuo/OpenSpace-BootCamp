@@ -1,0 +1,131 @@
+xszxc@192 hello_foundry % forge test --mc MyWallet -vvvv
+[⠊] Compiling...
+[⠒] Compiling 2 files with Solc 0.8.25
+[⠘] Solc 0.8.25 finished in 516.85ms
+Compiler run successful with warnings:
+Warning (2018): Function state mutability can be restricted to view
+  --> test/MyWallet.t.sol:19:5:
+   |
+19 |     function test_InitialOwner() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+Warning (2018): Function state mutability can be restricted to view
+  --> test/MyWallet.t.sol:25:5:
+   |
+25 |     function test_Name() public {
+   |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 7 tests for test/MyWallet.t.sol:MyWalletTest
+[PASS] test_AssemblyConsistency() (gas: 24871)
+Traces:
+  [24871] MyWalletTest::test_AssemblyConsistency()
+    ├─ [2530] MyWallet::owner() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000001234
+    ├─ [524] MyWallet::getOwnerAssembly() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000001234
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000001234, 0x0000000000000000000000000000000000001234) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Return] 
+    ├─ [3682] MyWallet::transferOwernship(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Stop] 
+    ├─ [530] MyWallet::owner() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000005678
+    ├─ [524] MyWallet::getOwnerAssembly() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000005678
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000005678, 0x0000000000000000000000000000000000005678) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_InitialOwner() (gas: 15395)
+Traces:
+  [15395] MyWalletTest::test_InitialOwner()
+    ├─ [2530] MyWallet::owner() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000001234
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000001234, 0x0000000000000000000000000000000000001234) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [524] MyWallet::getOwnerAssembly() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000001234
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000001234, 0x0000000000000000000000000000000000001234) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_MultipleTransfers() (gas: 24601)
+Traces:
+  [24601] MyWalletTest::test_MultipleTransfers()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Return] 
+    ├─ [5682] MyWallet::transferOwernship(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Return] 
+    ├─ [882] MyWallet::transferOwernship(0x0000000000000000000000000000000000009012)
+    │   └─ ← [Stop] 
+    ├─ [530] MyWallet::owner() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000009012
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000009012, 0x0000000000000000000000000000000000009012) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [524] MyWallet::getOwnerAssembly() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000009012
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000009012, 0x0000000000000000000000000000000000009012) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_Name() (gas: 12911)
+Traces:
+  [12911] MyWalletTest::test_Name()
+    ├─ [3298] MyWallet::name() [staticcall]
+    │   └─ ← [Return] "TestWallet"
+    ├─ [0] VM::assertEq("TestWallet", "TestWallet") [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_TransferOwnershipAuth() (gas: 27629)
+Traces:
+  [27629] MyWalletTest::test_TransferOwnershipAuth()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Not authorized)
+    │   └─ ← [Return] 
+    ├─ [2875] MyWallet::transferOwernship(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Revert] revert: Not authorized
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Return] 
+    ├─ [5682] MyWallet::transferOwernship(0x0000000000000000000000000000000000005678)
+    │   └─ ← [Stop] 
+    ├─ [530] MyWallet::owner() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000005678
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000005678, 0x0000000000000000000000000000000000005678) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [524] MyWallet::getOwnerAssembly() [staticcall]
+    │   └─ ← [Return] 0x0000000000000000000000000000000000005678
+    ├─ [0] VM::assertEq(0x0000000000000000000000000000000000005678, 0x0000000000000000000000000000000000005678) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_TransferToSameOwner() (gas: 14407)
+Traces:
+  [14407] MyWalletTest::test_TransferToSameOwner()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  &New owner is the same as the old owner)
+    │   └─ ← [Return] 
+    ├─ [3072] MyWallet::transferOwernship(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Revert] revert: New owner is the same as the old owner
+    └─ ← [Stop] 
+
+[PASS] test_TransferToZeroAddress() (gas: 14047)
+Traces:
+  [14047] MyWalletTest::test_TransferToZeroAddress()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000001234)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  New owner is the zero address)
+    │   └─ ← [Return] 
+    ├─ [2909] MyWallet::transferOwernship(0x0000000000000000000000000000000000000000)
+    │   └─ ← [Revert] revert: New owner is the zero address
+    └─ ← [Stop] 
+
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 5.97ms (6.14ms CPU time)
+
+Ran 1 test suite in 7.59s (5.97ms CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)
