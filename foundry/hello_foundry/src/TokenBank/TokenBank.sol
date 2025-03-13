@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "./BalanceList.sol";
 
 contract TokenBank {
@@ -44,7 +44,7 @@ contract TokenBank {
     require(amount > 0, "Amount must be greater than 0");
     IERC20Permit(tokens).permit(owner, spender, amount, deadline, v, r, s);
     // IERC20(tokens).transferFrom(owner, address(this), amount);
-    SafeERC20.safeTransferFrom(IERC20(tokens), owner,address(this), amount); // 要使用SafeERC20进行安全转账
+    SafeERC20.safeTransferFrom(IERC20(tokens), owner, address(this), amount); // 要使用SafeERC20进行安全转账
     balances[owner] += amount;
     rankDeposit(owner);
     emit Deposited(owner, amount);
@@ -55,9 +55,11 @@ contract TokenBank {
     uint256 userBalance = balances[user];
     uint256 minBalance = balanceList.getMinBalance();
     // 如果用户已经在前10名中，或存款大于最小存款，则更新存款排名
-    if(balanceList.isUser(user)){ // 已经存在的用户更新存款
+    if (balanceList.isUser(user)) {
+      // 已经存在的用户更新存款
       balanceList.updateBalance(user, userBalance);
-    }else if (userBalance > minBalance||balanceList.listSize()<10) { // 新用户存款大于前十名的最小存款
+    } else if (userBalance > minBalance || balanceList.listSize() < 10) {
+      // 新用户存款大于前十名的最小存款
       balanceList.addUser(user, userBalance);
     }
   }

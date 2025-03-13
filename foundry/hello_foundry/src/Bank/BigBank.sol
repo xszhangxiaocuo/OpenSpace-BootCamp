@@ -17,58 +17,57 @@ import "./bank.sol";
 import "./IBank.sol";
 
 contract BigBank is Bank {
-    modifier onlyEnoughAmount(uint256 amount) {
-        require(
-            amount > 0.001 ether,
-            unicode"存款金额必须大于0.001 ether"
-        );
-        _;
-    }
-    modifier onlyOwner(address addr) {
-        require(addr == owner, unicode"无管理员权限");
-        _;
-    }
+  modifier onlyEnoughAmount(uint256 amount) {
+    require(amount > 0.001 ether, unicode"存款金额必须大于0.001 ether");
+    _;
+  }
 
-    receive() onlyEnoughAmount(msg.value) external payable override {
-        balanceMap[msg.sender] += msg.value;
-        if (balanceMap[msg.sender] > balanceMap[rank[2]]) {
-            updateRank();
-        }
-    }
+  modifier onlyOwner(address addr) {
+    require(addr == owner, unicode"无管理员权限");
+    _;
+  }
 
-    function transferOwner(address addr) onlyOwner(msg.sender) external {
-        owner = addr;
+  receive() external payable override onlyEnoughAmount(msg.value) {
+    balanceMap[msg.sender] += msg.value;
+    if (balanceMap[msg.sender] > balanceMap[rank[2]]) {
+      updateRank();
     }
+  }
+
+  function transferOwner(address addr) external onlyOwner(msg.sender) {
+    owner = addr;
+  }
 }
 
 contract Admin {
-    address public owner;
-    constructor() {
-        owner = msg.sender;
-    }
+  address public owner;
 
-    receive() external payable { }
+  constructor() {
+    owner = msg.sender;
+  }
 
-    modifier onlyOwner(address addr) {
-        require(addr == owner, unicode"无管理员权限");
-        _;
-    }
+  receive() external payable { }
 
-    function withdraw(address addr, uint256 amount) onlyOwner(msg.sender) public {
-        // bank.withdraw(amount);
-        IBank(addr).withdraw(amount);
-        // (bool success, ) = addr.call(abi.encodeWithSignature("withdraw(uint256)", amount));
-        // require(success,"failed");
-    }
+  modifier onlyOwner(address addr) {
+    require(addr == owner, unicode"无管理员权限");
+    _;
+  }
 
-    function adminWithdraw(IBank bank, uint256 amount) onlyOwner(msg.sender) public {
-        bank.withdraw(amount);
-        // IBank(addr).withdraw(amount);
-        // (bool success, ) = addr.call(abi.encodeWithSignature("withdraw(uint256)", amount));
-        // require(success,"failed");
-    }
+  function withdraw(address addr, uint256 amount) public onlyOwner(msg.sender) {
+    // bank.withdraw(amount);
+    IBank(addr).withdraw(amount);
+    // (bool success, ) = addr.call(abi.encodeWithSignature("withdraw(uint256)", amount));
+    // require(success,"failed");
+  }
 
-    function getBalance() public view returns (uint256) {
-        return address(this).balance;
-    }
+  function adminWithdraw(IBank bank, uint256 amount) public onlyOwner(msg.sender) {
+    bank.withdraw(amount);
+    // IBank(addr).withdraw(amount);
+    // (bool success, ) = addr.call(abi.encodeWithSignature("withdraw(uint256)", amount));
+    // require(success,"failed");
+  }
+
+  function getBalance() public view returns (uint256) {
+    return address(this).balance;
+  }
 }

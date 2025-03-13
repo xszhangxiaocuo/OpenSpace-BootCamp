@@ -12,47 +12,37 @@ withdraw（）: 用户可以提取自己的之前存入的 token。
 import "./IBaseERC20.sol";
 
 contract TokenBank {
-    address public tokens;
-    mapping(address => uint256) public balances;
+  address public tokens;
+  mapping(address => uint256) public balances;
 
-    event Deposited(address indexed user, uint256 amount);
-    event Withdrawn(address indexed user, uint256 amount);
+  event Deposited(address indexed user, uint256 amount);
+  event Withdrawn(address indexed user, uint256 amount);
 
-    constructor(address _token) {
-        tokens = _token;
-    }
+  constructor(address _token) {
+    tokens = _token;
+  }
 
-    modifier enoughBalance(address _addr, uint256 _amount) {
-        require(
-            balances[_addr] >= _amount,
-            "TokenBank: Insufficient balance in TokenBank"
-        );
-        _;
-    }
+  modifier enoughBalance(address _addr, uint256 _amount) {
+    require(balances[_addr] >= _amount, "TokenBank: Insufficient balance in TokenBank");
+    _;
+  }
 
-    function deposit(uint256 amount) public {
-        (bool success, ) = tokens.call(
-            abi.encodeCall(
-                IBaseERC20(tokens).transferFrom,
-                (msg.sender, address(this), amount)
-            )
-        );
-        require(success, "TokenBank: deposit failed");
-        balances[msg.sender] += amount;
-        emit Deposited(msg.sender, amount);
-    }
+  function deposit(uint256 amount) public {
+    (bool success,) = tokens.call(abi.encodeCall(IBaseERC20(tokens).transferFrom, (msg.sender, address(this), amount)));
+    require(success, "TokenBank: deposit failed");
+    balances[msg.sender] += amount;
+    emit Deposited(msg.sender, amount);
+  }
 
-    function withdraw(uint256 amount) public enoughBalance(msg.sender, amount) {
-        (bool success, ) = tokens.call(
-            abi.encodeCall(IBaseERC20(tokens).transfer, (msg.sender, amount))
-        );
-        require(success, "TokenBank: withdraw failed");
-        balances[msg.sender] -= amount;
+  function withdraw(uint256 amount) public enoughBalance(msg.sender, amount) {
+    (bool success,) = tokens.call(abi.encodeCall(IBaseERC20(tokens).transfer, (msg.sender, amount)));
+    require(success, "TokenBank: withdraw failed");
+    balances[msg.sender] -= amount;
 
-        emit Withdrawn(msg.sender, amount);
-    }
+    emit Withdrawn(msg.sender, amount);
+  }
 
-    function getDepositBalance(address user) public view returns (uint256) {
-        return balances[user];
-    }
+  function getDepositBalance(address user) public view returns (uint256) {
+    return balances[user];
+  }
 }

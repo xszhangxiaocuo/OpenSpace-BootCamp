@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
-import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 contract TokenBank {
   address public tokens;
@@ -40,7 +40,7 @@ contract TokenBank {
     require(amount > 0, "Amount must be greater than 0");
     IERC20Permit(tokens).permit(owner, spender, amount, deadline, v, r, s);
     // IERC20(tokens).transferFrom(owner, address(this), amount);
-    SafeERC20.safeTransferFrom(IERC20(tokens), owner,address(this), amount); // 要使用SafeERC20进行安全转账
+    SafeERC20.safeTransferFrom(IERC20(tokens), owner, address(this), amount); // 要使用SafeERC20进行安全转账
     balances[owner] += amount;
     emit Deposited(owner, amount);
   }

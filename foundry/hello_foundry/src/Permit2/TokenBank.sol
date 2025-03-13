@@ -50,7 +50,7 @@ contract TokenBank {
   function depositWithPermit2(IERC20 token, uint256 amount, uint256 nonce, uint256 deadline, bytes calldata signature) public {
     IPermit2.SignatureTransferDetails memory transferDetails;
     balances[msg.sender] += amount;
-    
+
     transferDetails = IPermit2.SignatureTransferDetails({ to: address(this), requestedAmount: amount });
     permit2.permitTransferFrom(
       IPermit2.PermitTransferFrom({ permitted: IPermit2.TokenPermissions({ token: token, amount: amount }), nonce: nonce, deadline: deadline }),

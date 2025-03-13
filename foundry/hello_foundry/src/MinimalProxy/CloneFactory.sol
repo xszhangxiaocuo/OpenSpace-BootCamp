@@ -57,7 +57,7 @@ contract CloneFactory is Ownable {
     // require(success, "Transfer failed");
 
     token.mint(msg.sender);
-    payable(cloneToOwner[tokenAddr]).transfer(amount - fee); 
+    payable(cloneToOwner[tokenAddr]).transfer(amount - fee);
     // (success,) = payable(cloneToOwner[tokenAddr]).call{ value: amount - fee }(""); // 发行者收取铸造费用
     // require(success, "Transfer failed");
     if (msg.value > amount) {
