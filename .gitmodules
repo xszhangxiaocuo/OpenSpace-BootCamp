@@ -7,3 +7,6 @@
 [submodule "foundry/my-uniswap-dex/lib/forge-std"]
 	path = foundry/my-uniswap-dex/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "foundry/my-uniswap-dex/lib/v2-core"]
+	path = foundry/my-uniswap-dex/lib/v2-core
+	url = https://github.com/Uniswap/v2-core
