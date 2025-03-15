@@ -13,3 +13,6 @@
 [submodule "foundry/my-uniswap-dex/lib/v2-periphery"]
 	path = foundry/my-uniswap-dex/lib/v2-periphery
 	url = https://github.com/Uniswap/v2-periphery
+[submodule "foundry/my-uniswap-dex/lib/openzeppelin-contracts"]
+	path = foundry/my-uniswap-dex/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
