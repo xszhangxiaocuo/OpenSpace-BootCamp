@@ -16,3 +16,6 @@
 [submodule "foundry/my-uniswap-dex/lib/openzeppelin-contracts"]
 	path = foundry/my-uniswap-dex/lib/openzeppelin-contracts
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+[submodule "foundry/my-uniswap-dex/lib/uniswap-lib"]
+	path = foundry/my-uniswap-dex/lib/uniswap-lib
+	url = https://github.com/uniswap/uniswap-lib
