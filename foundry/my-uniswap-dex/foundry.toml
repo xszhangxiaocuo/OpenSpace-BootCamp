@@ -1,6 +1,24 @@
 [profile.default]
 src = "src"
-out = "out"
+out = "out" 
 libs = ["lib"]
+build_info = true
+extra_output = ["storageLayout"]
+ffi = true
+ast = true
+solc-version = "0.6.6"
+
+[fmt]
+line_length = 180
+tab_width = 2
+bracket_spacing = true
+
+[rpc_endpoints]
+sepolia = "${SEPOLIA_RPC_URL}"
+local = "http://localhost:8545"
+
+[etherscan]
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
+
 
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
