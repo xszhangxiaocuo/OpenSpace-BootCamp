@@ -19,3 +19,6 @@
 [submodule "foundry/my-uniswap-dex/lib/uniswap-lib"]
 	path = foundry/my-uniswap-dex/lib/uniswap-lib
 	url = https://github.com/uniswap/uniswap-lib
+[submodule "foundry/hello_foundry/lib/chainlink"]
+	path = foundry/hello_foundry/lib/chainlink
+	url = https://github.com/smartcontractkit/chainlink
