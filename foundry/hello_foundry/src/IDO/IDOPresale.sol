@@ -77,7 +77,7 @@ contract IDOPresale is ReentrancyGuardTransient, Ownable {
     emit Contributed(msg.sender, msg.value);
   }
 
-  // 更新预售状态
+  // 更新预售状态（优化：不需要更改状态变量，只需要读取状态进行判断即可）
   function updateState() public {
     if (presale.state != SaleState.Active) return;
 
