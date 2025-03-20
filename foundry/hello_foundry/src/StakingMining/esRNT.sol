@@ -27,7 +27,7 @@ contract EsRNT is ERC20, ERC20Permit, Ownable {
         RNT = ERC20(_rnt);
   }
 
-    function mint(address _to, uint256 _amount) public {
+    function mint(address _to, uint256 _amount) external {
         _mint(_to, _amount); // 给质押用户发放奖励
         RNT.safeTransferFrom(msg.sender, address(this), _amount); // 从质押池转入奖励
         lockedRewards[_to].push(LockedEsRNT(_amount, block.timestamp + 30 days,false)); // 锁定 30 天

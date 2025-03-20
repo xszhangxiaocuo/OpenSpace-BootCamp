@@ -132,6 +132,7 @@ contract StakingPool is IStaking {
       return;
     }
     rewardPerTokenStored += (block.number - lastUpdateBlock) * rewardRate * 1e18 / totalStaked;
+    lastUpdateBlock = block.number;
   }
 
   // 更新用户累计奖励

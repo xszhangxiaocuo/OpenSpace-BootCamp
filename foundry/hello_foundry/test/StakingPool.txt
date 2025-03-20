@@ -1,0 +1,113 @@
+xszxc@192 hello_foundry % forge test --mc StakingPool -vvvv
+[⠊] Compiling...
+[⠘] Compiling 1 files with Solc 0.8.25
+[⠃] Solc 0.8.25 finished in 667.81ms
+Compiler run successful!
+
+Ran 1 test for test/StakingPool.t.sol:StakingPoolTest
+[PASS] testStake() (gas: 472194)
+Traces:
+  [551794] StakingPoolTest::testStake()
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [93851] StakingPool::stake{value: 100000000000000000000}()
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(3)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [89210] StakingPool::stake{value: 200000000000000000000}()
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 200000000000000000 [2e17]
+    ├─ [0] VM::assertEq(200000000000000000 [2e17], 200000000000000000 [2e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(4)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000789)
+    │   └─ ← [Return] 
+    ├─ [69310] StakingPool::stake{value: 100000000000000000000}()
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 233333333333333333 [2.333e17]
+    ├─ [0] VM::assertEq(233333333333333333 [2.333e17], 233333333333333333 [2.333e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(7)
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [78921] StakingPool::unstake(100000000000000000000 [1e20])
+    │   ├─ [0] 0x0000000000000000000000000000000000000123::fallback{value: 100000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 308333333333333333 [3.083e17]
+    ├─ [0] VM::assertEq(308333333333333333 [3.083e17], 308333333333333333 [3.083e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [3573] StakingPool::earned(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 30833333333333333300 [3.083e19]
+    ├─ [0] VM::assertEq(30833333333333333300 [3.083e19], 30833333333333333300 [3.083e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(8)
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000789)
+    │   └─ ← [Return] 
+    ├─ [26639] StakingPool::stake{value: 100000000000000000000}()
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 341666666666666666 [3.416e17]
+    ├─ [0] VM::assertEq(341666666666666666 [3.416e17], 341666666666666666 [3.416e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [3573] StakingPool::earned(0x0000000000000000000000000000000000000789) [staticcall]
+    │   └─ ← [Return] 10833333333333333300 [1.083e19]
+    ├─ [0] VM::assertEq(10833333333333333300 [1.083e19], 10833333333333333300 [1.083e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(9)
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000456)
+    │   └─ ← [Return] 
+    ├─ [59021] StakingPool::unstake(200000000000000000000 [2e20])
+    │   ├─ [0] 0x0000000000000000000000000000000000000456::fallback{value: 200000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 366666666666666666 [3.666e17]
+    ├─ [0] VM::assertEq(366666666666666666 [3.666e17], 366666666666666666 [3.666e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [3573] StakingPool::earned(0x0000000000000000000000000000000000000456) [staticcall]
+    │   └─ ← [Return] 33333333333333333200 [3.333e19]
+    ├─ [0] VM::assertEq(33333333333333333200 [3.333e19], 33333333333333333200 [3.333e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::roll(11)
+    │   └─ ← [Return] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000789)
+    │   └─ ← [Return] 
+    ├─ [901] StakingPool::getUserReward(0x0000000000000000000000000000000000000789) [staticcall]
+    │   └─ ← [Return] 10833333333333333300 [1.083e19]
+    ├─ [37121] StakingPool::unstake(200000000000000000000 [2e20])
+    │   ├─ [0] 0x0000000000000000000000000000000000000789::fallback{value: 200000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Stop] 
+    ├─ [513] StakingPool::rewardPerTokenStored() [staticcall]
+    │   └─ ← [Return] 466666666666666666 [4.666e17]
+    ├─ [0] VM::assertEq(466666666666666666 [4.666e17], 466666666666666666 [4.666e17]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [2322] StakingPool::earned(0x0000000000000000000000000000000000000789) [staticcall]
+    │   └─ ← [Return] 35833333333333333300 [3.583e19]
+    ├─ [0] VM::assertEq(35833333333333333300 [3.583e19], 35833333333333333300 [3.583e19]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 6.22ms (780.71µs CPU time)
+
+Ran 1 test suite in 1.85s (6.22ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
