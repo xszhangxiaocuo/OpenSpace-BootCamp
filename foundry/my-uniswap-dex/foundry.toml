@@ -6,6 +6,8 @@ build_info = true
 extra_output = ["storageLayout"]
 ffi = true
 ast = true
+via_ir = true
+optimizer = true
 
 [fmt]
 line_length = 180

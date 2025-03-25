@@ -1,0 +1,78 @@
+Ran 1 test for test/FlashSwap.t.sol:PoolInitTest
+[PASS] testFlashSwapSuccess() (gas: 162818)
+Traces:
+  [208218] PoolInitTest::testFlashSwapSuccess()
+    ├─ [2537] MyToken::balanceOf(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [2537] MyToken::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [178280] FlashSwap::startFlashSwap(MyToken: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], MyToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 9000000000000000000000000000 [9e27])
+    │   ├─ [2676] 0x5FbDB2315678afecb367f032d93F642f64180aa3::getPair(MyToken: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], MyToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   │   └─ ← [Return] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F
+    │   ├─ [2465] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::token0() [staticcall]
+    │   │   └─ ← [Return] MyToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]
+    │   ├─ [2397] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::token1() [staticcall]
+    │   │   └─ ← [Return] MyToken: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]
+    │   ├─ [163120] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::swap(0, 9000000000000000000000000000 [9e27], FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 0x00000000000000000000000028404e9d9f2a54549f3f6e9d01ff848751dcb64f)
+    │   │   ├─ [27718] MyToken::transfer(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 9000000000000000000000000000 [9e27])
+    │   │   │   ├─ emit Transfer(from: 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F, to: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 9000000000000000000000000000 [9e27])
+    │   │   │   └─ ← [Return] true
+    │   │   ├─ [112943] FlashSwap::uniswapV2Call(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 0, 9000000000000000000000000000 [9e27], 0x00000000000000000000000028404e9d9f2a54549f3f6e9d01ff848751dcb64f)
+    │   │   │   ├─ [465] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::token0() [staticcall]
+    │   │   │   │   └─ ← [Return] MyToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]
+    │   │   │   ├─ [397] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::token1() [staticcall]
+    │   │   │   │   └─ ← [Return] MyToken: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f]
+    │   │   │   ├─ [2676] 0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512::getPair(MyToken: [0x5615dEB798BB3E4dFa0139dFa1b3D433Cc23b72f], MyToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b]) [staticcall]
+    │   │   │   │   └─ ← [Return] 0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0
+    │   │   │   ├─ [7818] MyToken::transfer(0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0, 9000000000000000000000000000 [9e27])
+    │   │   │   │   ├─ emit Transfer(from: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: 0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0, value: 9000000000000000000000000000 [9e27])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   ├─ [2893] 0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0::getReserves() [staticcall]
+    │   │   │   │   └─ ← [Return] 10000000000000000000000000000 [1e28], 500000000000000000000 [5e20], 1742888896 [1.742e9]
+    │   │   │   ├─ [53620] 0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0::swap(9999999442772793782860036617 [9.999e27], 0, FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 0x)
+    │   │   │   │   ├─ [29718] MyToken::transfer(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], 9999999442772793782860036617 [9.999e27])
+    │   │   │   │   │   ├─ emit Transfer(from: 0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0, to: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], value: 9999999442772793782860036617 [9.999e27])
+    │   │   │   │   │   └─ ← [Return] true
+    │   │   │   │   ├─ [537] MyToken::balanceOf(0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0) [staticcall]
+    │   │   │   │   │   └─ ← [Return] 557227206217139963383 [5.572e20]
+    │   │   │   │   ├─ [537] MyToken::balanceOf(0x74f83b91e99C5E6486Be7D7090C2b9A4612912C0) [staticcall]
+    │   │   │   │   │   └─ ← [Return] 9000000500000000000000000000 [9e27]
+    │   │   │   │   ├─ emit Sync(reserve0: 557227206217139963383 [5.572e20], reserve1: 9000000500000000000000000000 [9e27])
+    │   │   │   │   ├─ emit Swap(sender: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], amount0In: 0, amount1In: 9000000000000000000000000000 [9e27], amount0Out: 9999999442772793782860036617 [9.999e27], amount1Out: 0, to: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   │   │   │   └─ ← [Stop] 
+    │   │   │   ├─ [893] 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F::getReserves() [staticcall]
+    │   │   │   │   └─ ← [Return] 100000000000000000000 [1e20], 10000000000000000000000000000 [1e28], 1742888896 [1.742e9]
+    │   │   │   ├─ [537] MyToken::balanceOf(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   │   │   │   └─ ← [Return] 9999999442772793782860036617 [9.999e27]
+    │   │   │   ├─ [7818] MyToken::transfer(0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F, 902708124373119358075 [9.027e20])
+    │   │   │   │   ├─ emit Transfer(from: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: 0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F, value: 902708124373119358075 [9.027e20])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   ├─ [537] MyToken::balanceOf(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   │   │   │   └─ ← [Return] 9999998540064669409740678542 [9.999e27]
+    │   │   │   ├─ [22918] MyToken::transfer(0x0000000000000000000000000000000000000123, 9999998540064669409740678542 [9.999e27])
+    │   │   │   │   ├─ emit Transfer(from: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], to: 0x0000000000000000000000000000000000000123, value: 9999998540064669409740678542 [9.999e27])
+    │   │   │   │   └─ ← [Return] true
+    │   │   │   └─ ← [Return] 
+    │   │   ├─ [537] MyToken::balanceOf(0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F) [staticcall]
+    │   │   │   └─ ← [Return] 1002708124373119358075 [1.002e21]
+    │   │   ├─ [537] MyToken::balanceOf(0x28404e9D9F2a54549F3F6E9d01FF848751DcB64F) [staticcall]
+    │   │   │   └─ ← [Return] 1000000000000000000000000000 [1e27]
+    │   │   ├─ emit Sync(reserve0: 1002708124373119358075 [1.002e21], reserve1: 1000000000000000000000000000 [1e27])
+    │   │   ├─ emit Swap(sender: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a], amount0In: 902708124373119358075 [9.027e20], amount1In: 0, amount0Out: 0, amount1Out: 9000000000000000000000000000 [9e27], to: FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a])
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Return] 
+    ├─ [537] MyToken::balanceOf(FlashSwap: [0xF62849F9A0B5Bf2913b396098F7c7019b51A820a]) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [537] MyToken::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 9999998540064669409740678542 [9.999e27]
+    ├─ [0] VM::assertEq(0, 0, "TokenA balance should not change") [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertGt(9999998540064669409740678542 [9.999e27], 0, "No profit made for user") [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Return] 
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 35.43ms (2.02ms CPU time)
+
+Ran 1 test suite in 294.70ms (35.43ms CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)
