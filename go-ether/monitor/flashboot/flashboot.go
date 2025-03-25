@@ -9,6 +9,7 @@ import (
 
 	"github.com/ethereum/go-ethereum/accounts/abi"
 	"github.com/ethereum/go-ethereum/common"
+	"github.com/ethereum/go-ethereum/consensus/misc/eip1559"
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/params"
@@ -67,7 +68,8 @@ func main() {
 
 	presaleKey, _ := crypto.HexToECDSA(strings.TrimPrefix(presalePrivHex, "0x"))
 	presaleAddr := crypto.PubkeyToAddress(presaleKey.PublicKey)
-	signer := types.LatestSigner(params.SepoliaChainConfig)
+	// signer := types.LatestSigner(params.SepoliaChainConfig)
+	// signer := types.NewEIP155Signer(params.SepoliaChainConfig.ChainID)
 	log.Println("🔑 Owner 地址:", ownerAddr.Hex())
 	log.Println("🔑 Presale 地址:", presaleAddr.Hex())
 
@@ -142,18 +144,23 @@ FindEnable:
 	fmt.Println("🔧 构建 presale(1) 交易...")
 	var nonce uint64
 	var gasTip, gasFee *big.Int
+	var latestBlockHeader *types.Header
 	var latestBlock *big.Int
 
 	err = client.Call(
 		eth.Nonce(presaleAddr, nil).Returns(&nonce),
 		eth.GasTipCap().Returns(&gasTip),
 		eth.GasPrice().Returns(&gasFee),
+		eth.HeaderByNumber(nil).Returns(&latestBlockHeader),
 		eth.BlockNumber().Returns(&latestBlock),
-		// eth.BaseFeePerGas().Returns(&baseFee),
 	)
 	if err != nil {
 		log.Fatalf("❌ 获取交易参数失败: %v", err)
 	}
+
+	// 计算 baseFee
+	baseFee := eip1559.CalcBaseFee(params.SepoliaChainConfig, latestBlockHeader)
+	log.Println("🔧 当前 baseFee:", baseFee)
 
 	// 构造 presale(uint256) 方法调用数据
 	// presaleSelector := crypto.Keccak256([]byte("presale(uint256)"))[:4]
@@ -162,7 +169,7 @@ FindEnable:
 	// data := append(presaleSelector, amountPadded...)
 	data := encodePresaleData(big.NewInt(1))
 
-	// tx := &types.DynamicFeeTx{
+	// tx := types.NewTx(&types.DynamicFeeTx{
 	// 	ChainID:   big.NewInt(11155111),
 	// 	Nonce:     nonce,
 	// 	GasTipCap: gasTip,
@@ -170,23 +177,29 @@ FindEnable:
 	// 	Gas:       300000,
 	// 	To:        &contractAddr,
 	// 	Value:     big.NewInt(1e16), // 0.01 ETH
-	// 	Data:      data,
+	// 	Data:      w3.B("0x" + hex.EncodeToString(data)),
+	// })
+	// signedTx, err := types.SignTx(tx, signer, presaleKey)
+	// if err != nil {
+	// 	log.Fatalf("❌ presale 交易签名失败: %v", err)
 	// }
-	tx := &types.DynamicFeeTx{
-		ChainID:   big.NewInt(11155111),
-		Nonce:     36,
-		GasTipCap: gasTip,
-		GasFeeCap: gasFee,
-		Gas:       300000,
-		To:        &contractAddr,
-		Value:     big.NewInt(1e16), // 0.01 ETH
-		Data:      data,
+
+	gasFee = new(big.Int).Add(baseFee, gasFee)
+	gasFee = new(big.Int).Mul(gasFee, big.NewInt(11))
+	gasFee = new(big.Int).Div(gasFee, big.NewInt(10))
+	tx := &types.LegacyTx{
+		Nonce:    nonce,
+		GasPrice: gasFee,
+		Gas:      300_000,
+		To:       &contractAddr,
+		Value:    big.NewInt(1e16), // 0.01 ETH
+		Data:     data,
 	}
 
-	// signedTx, err := types.SignTx(tx, signer, presaleKey)
-	signedTx := types.MustSignNewTx(presaleKey, signer, tx)
+	// signedTx := types.MustSignNewTx(presaleKey, types.NewEIP155Signer(params.SepoliaChainConfig.ChainID), tx)
+	signedTx, err := types.SignNewTx(presaleKey, types.NewEIP155Signer(big.NewInt(11155111)), tx)
 	if err != nil {
-		log.Fatalf("❌ presale 交易签名失败: %v", err)
+		log.Fatal("❌ 签名失败:", err)
 	}
 	fmt.Println("✅ 构建完成，本地 presale 交易哈希:", signedTx.Hash().Hex())
 
@@ -209,7 +222,7 @@ FindEnable:
 	var bundleHash common.Hash
 	err = fbClient.Call(
 		flashbots.SendBundle(&flashbots.SendBundleRequest{
-			Transactions: types.Transactions{enableTx, signedTx},
+			Transactions: types.Transactions{signedTx},
 			BlockNumber:  targetBlock,
 		}).Returns(&bundleHash),
 	)
