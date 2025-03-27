@@ -1,0 +1,132 @@
+xszxc@192 hello_foundry % forge test --mc CallOptionTokenTest -vvvv
+[⠒] Compiling...
+[⠑] Compiling 1 files with Solc 0.8.25
+[⠘] Solc 0.8.25 finished in 571.48ms
+Compiler run successful!
+
+Ran 6 tests for test/CallOptionToken.t.sol:CallOptionTokenTest
+[PASS] testExercise() (gas: 173723)
+Traces:
+  [222419] CallOptionTokenTest::testExercise()
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000123, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [46944] CallOptionToken::mintOption{value: 1000000000000000000}()
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(86401 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [47293] MockUSDT::mint(0x0000000000000000000000000000000000000123, 1800000000 [1.8e9])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 1800000000 [1.8e9])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::startPrank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [25298] MockUSDT::approve(CallOptionToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], 1800000000 [1.8e9])
+    │   ├─ emit Approval(owner: 0x0000000000000000000000000000000000000123, spender: CallOptionToken: [0x2e234DAe75C793f67A35089C9d99245E1C58470b], value: 1800000000 [1.8e9])
+    │   └─ ← [Return] true
+    ├─ [63814] CallOptionToken::exercise(1000000000000000000 [1e18])
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: 0x0000000000000000000000000000000000000000, value: 1000000000000000000 [1e18])
+    │   ├─ [26819] MockUSDT::transferFrom(0x0000000000000000000000000000000000000123, CallOptionTokenTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], 1800000000 [1.8e9])
+    │   │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000123, to: CallOptionTokenTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496], value: 1800000000 [1.8e9])
+    │   │   └─ ← [Return] true
+    │   ├─ [0] 0x0000000000000000000000000000000000000123::fallback{value: 1000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Stop] 
+    ├─ [0] VM::stopPrank()
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [940] CallOptionToken::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 0
+    ├─ [0] VM::assertEq(0, 0) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [851] MockUSDT::balanceOf(CallOptionTokenTest: [0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496]) [staticcall]
+    │   └─ ← [Return] 1800000000 [1.8e9]
+    ├─ [0] VM::assertEq(1800000000 [1.8e9], 1800000000 [1.8e9]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testExpireAfterDeadline() (gas: 86266)
+Traces:
+  [86266] CallOptionTokenTest::testExpireAfterDeadline()
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000123, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [46944] CallOptionToken::mintOption{value: 1000000000000000000}()
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::warp(172802 [1.728e5])
+    │   └─ ← [Return] 
+    ├─ [12942] CallOptionToken::expire()
+    │   ├─ [55] CallOptionTokenTest::receive{value: 1000000000000000000}()
+    │   │   └─ ← [Stop] 
+    │   └─ ← [Stop] 
+    ├─ [0] VM::assertGt(79228162515264337593543950335 [7.922e28], 79228162514264337593543950335 [7.922e28]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [584] CallOptionToken::expired() [staticcall]
+    │   └─ ← [Return] true
+    ├─ [0] VM::assertTrue(true) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] testMintOption() (gas: 68399)
+Traces:
+  [68399] CallOptionTokenTest::testMintOption()
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000123, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [46944] CallOptionToken::mintOption{value: 1000000000000000000}()
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [940] CallOptionToken::balanceOf(0x0000000000000000000000000000000000000123) [staticcall]
+    │   └─ ← [Return] 1000000000000000000 [1e18]
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    ├─ [0] VM::assertEq(1000000000000000000 [1e18], 1000000000000000000 [1e18]) [staticcall]
+    │   └─ ← [Return] 
+    └─ ← [Stop] 
+
+[PASS] test_RevertWhen_ExerciseBeforeExpiry() (gas: 67717)
+Traces:
+  [67717] CallOptionTokenTest::test_RevertWhen_ExerciseBeforeExpiry()
+    ├─ [0] VM::deal(0x0000000000000000000000000000000000000123, 1000000000000000000 [1e18])
+    │   └─ ← [Return] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [46944] CallOptionToken::mintOption{value: 1000000000000000000}()
+    │   ├─ emit Transfer(from: 0x0000000000000000000000000000000000000000, to: 0x0000000000000000000000000000000000000123, value: 1000000000000000000 [1e18])
+    │   └─ ← [Stop] 
+    ├─ [0] VM::prank(0x0000000000000000000000000000000000000123)
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Not exercisable now)
+    │   └─ ← [Return] 
+    ├─ [772] CallOptionToken::exercise(1000000000000000000 [1e18])
+    │   └─ ← [Revert] revert: Not exercisable now
+    └─ ← [Stop] 
+
+[PASS] test_RevertWhen_ExpireTooEarly() (gas: 11261)
+Traces:
+  [11261] CallOptionTokenTest::test_RevertWhen_ExpireTooEarly()
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Too early to expire)
+    │   └─ ← [Return] 
+    ├─ [2943] CallOptionToken::expire()
+    │   └─ ← [Revert] revert: Too early to expire
+    └─ ← [Stop] 
+
+[PASS] test_RevertWhen_MintAfterExpiry() (gas: 18373)
+Traces:
+  [18373] CallOptionTokenTest::test_RevertWhen_MintAfterExpiry()
+    ├─ [0] VM::warp(86402 [8.64e4])
+    │   └─ ← [Return] 
+    ├─ [0] VM::expectRevert(custom error 0xf28dceb3:  Option expired)
+    │   └─ ← [Return] 
+    ├─ [536] CallOptionToken::mintOption{value: 1000000000000000000}()
+    │   └─ ← [Revert] revert: Option expired
+    └─ ← [Stop] 
+
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 6.09ms (7.32ms CPU time)
+
+Ran 1 test suite in 1.39s (6.09ms CPU time): 6 tests passed, 0 failed, 0 skipped (6 total tests)
